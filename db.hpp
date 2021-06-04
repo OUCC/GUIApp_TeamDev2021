@@ -1,5 +1,6 @@
 #include "crypto.hpp"
 #include "single_data.hpp"
+#include "db_exception.hpp"
 #include "sql_exception.hpp"
 #include <iostream>
 #include <sqlite3.h>
@@ -17,23 +18,26 @@ private:
     sqlite3 *conn;
     string key = "";
 
-    bool has_table(string name) {
-        char stmt[128];
+    string get_db_key() {
+        char stmt[128] = "SELECT key FROM key;";
         sqlite3_stmt* pStmt;
-        sprintf(stmt, "SELECT COUNT(*) FROM sqlite_master WHERE TYPE=\'table\' "
-            "AND name = \'%s\';", name.c_str());
         int status = sqlite3_prepare_v2(conn, stmt, -1, &pStmt, nullptr);
         if(status != SQLITE_OK) {
-            throw sql_exception("couldn't prepare finding table named " + name);
+            throw sql_exception("couldn't prepare getting key");
         }
-        status = sqlite3_step(pStmt);
-        if(status != SQLITE_ROW) {
-            throw sql_exception("couln't count table named " + name);
+        vector<string> keys;
+        while(sqlite3_step(pStmt) == SQLITE_ROW) {
+            const unsigned char* db_key = sqlite3_column_text(pStmt, 0);
+            keys.push_back(reinterpret_cast<const char*>(db_key));
         }
-        bool res = sqlite3_column_int(pStmt, 0);
         sqlite3_reset(pStmt);
         sqlite3_finalize(pStmt);
-        return res;
+
+        if(keys.size() > 1) {
+            throw db_exception("multiple keys were found");
+        }
+        if(keys.size() == 0) return "";
+        else return keys[0];
     }
 
 public:
@@ -49,22 +53,18 @@ public:
             sqlite3_close_v2(conn);
             throw sql_exception("couldn't open db named " + db_name);
         }
-        if(!has_table("key")) {
-            status = sqlite3_exec(conn, "CREATE TABLE key(key INTEGER);", nullptr, nullptr, nullptr);
-            if(status != SQLITE_OK) {
-                throw sql_exception("couldn't create table named key");
-            }
+        status = sqlite3_exec(conn, "CREATE TABLE IF NOT EXISTS key(key TEXT);", nullptr, nullptr, nullptr);
+        if(status != SQLITE_OK) {
+            throw sql_exception("couldn't create table named key");
         }
-        if(!has_table("passwds")) {
-            status = sqlite3_exec(conn, "CREATE TABLE passwds("
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                "service_name TEXT, "
-                "url TEXT, "
-                "USER_NAME TEXT, "
-                "PASSWD TEXT);", nullptr, nullptr, nullptr);
-            if(status != SQLITE_OK) {
-                throw sql_exception("couldn't create table named key");
-            }
+        status = sqlite3_exec(conn, "CREATE TABLE IF NOT EXISTS passwds("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "service_name TEXT, "
+            "url TEXT, "
+            "USER_NAME TEXT, "
+            "PASSWD TEXT);", nullptr, nullptr, nullptr);
+        if(status != SQLITE_OK) {
+            throw sql_exception("couldn't create table named key");
         }
     }
 
@@ -72,7 +72,38 @@ public:
         sqlite3_close_v2(conn);
     }
 
+    bool is_registered() {
+        return get_db_key() != "";
+    }
+
+    bool is_logined() {
+        return key != "";
+    }
+
+    void register_passwd(string passwd) {
+        string db_key = get_db_key();
+        if(db_key != "") {
+            throw db_exception("a key has already been registered");
+        }
+        string hash = sha256(passwd);
+        char stmt[200];
+        sprintf(stmt, "INSERT INTO key VALUES(\'%s\');", hash.c_str());
+        int status = sqlite3_exec(conn, stmt, nullptr, nullptr, nullptr);
+        if(status != SQLITE_OK) {
+            throw sql_exception("couldn't insert key");
+        }
+        key = hash;
+    }
+
     void login(string passwd) {
-        key = sha256(passwd);
+        string hash = sha256(passwd);
+        string db_key = get_db_key();
+        if(db_key == "") {
+            throw db_exception("no key has been registered");
+        }
+        if(hash != db_key) {
+            throw db_exception("invalid passwd");
+        }
+        key = hash;
     }
 };
