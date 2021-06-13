@@ -1,4 +1,4 @@
-﻿# include <Siv3D.hpp>
+# include <Siv3D.hpp>
 
 using App = SceneManager<String>;
 
@@ -41,6 +41,7 @@ public:
 
     }
 
+    // 更新関数
     void update() override
     {
 
