@@ -1,3 +1,4 @@
+.vscode
 main.cpp
 *.sqlite3
 *.out

@@ -93,15 +93,16 @@ public:
         key = hash;
     }
 
-    void login(string passwd) {
+    bool login(string passwd) {
         string hash = sha256(passwd);
         string db_key = get_db_key();
         if(db_key == "") {
             throw db_exception("no key has been registered");
         }
         if(hash != db_key) {
-            throw db_exception("invalid passwd");
+            return false;
         }
         key = hash;
+        return true;
     }
 };
