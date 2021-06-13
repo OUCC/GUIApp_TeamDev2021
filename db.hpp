@@ -4,9 +4,7 @@
 #include "sql_exception.hpp"
 #include <iostream>
 #include <sqlite3.h>
-#include <stdexcept>
 #include <string>
-#include <utility>
 #include <vector>
 
 using namespace CryptoPP;
