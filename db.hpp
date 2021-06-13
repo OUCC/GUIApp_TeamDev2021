@@ -62,7 +62,7 @@ public:
             "USER_NAME TEXT, "
             "PASSWD TEXT);", nullptr, nullptr, nullptr);
         if(status != SQLITE_OK) {
-            throw sql_exception("couldn't create table named key");
+            throw sql_exception("couldn't create table named passwds");
         }
     }
 
