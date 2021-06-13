@@ -40,7 +40,8 @@ public:
     {
 
     }
-
+    
+    // 更新関数
     void update() override
     {
 
