@@ -1,0 +1,147 @@
+\hypertarget{classdb}{}\doxysection{db Class Reference}
+\label{classdb}\index{db@{db}}
+
+
+DBの表面上の\+I/\+Oを担当するクラス  
+
+
+
+
+{\ttfamily \#include $<$db.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classdb_ad149925a63269562ef5438f5f9330e66}{db}} (string db\+\_\+name=\char`\"{}passwd.\+sqlite3\char`\"{})
+\begin{DoxyCompactList}\small\item\em dbのコンストラクタ、ここでsqlにコネクトして情報を保持する \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdb_a752ca59d657d028155948a580f86004f}\label{classdb_a752ca59d657d028155948a580f86004f}} 
+virtual \mbox{\hyperlink{classdb_a752ca59d657d028155948a580f86004f}{$\sim$db}} ()
+\begin{DoxyCompactList}\small\item\em dbのデストラクタ、sqlの接続を切断する \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classdb_a6467d25aa65b8b8d0c206a6afad7df14}{is\+\_\+registered}} ()
+\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードが既に登録されているかを返す \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classdb_acff925896188a6a78e4f9fbe567f4d01}{is\+\_\+logined}} ()
+\begin{DoxyCompactList}\small\item\em PWマネージャーにすでにログインしているかを返す \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdb_af1236df492f06eae8702df6bd73111af}{register\+\_\+passwd}} (string passwd)
+\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録している \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classdb_a1ad155d7f112ccc7dcea8340095ca0be}{login}} (string passwd)
+\begin{DoxyCompactList}\small\item\em PWマネージャーにログインする \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+DBの表面上の\+I/\+Oを担当するクラス 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classdb_ad149925a63269562ef5438f5f9330e66}\label{classdb_ad149925a63269562ef5438f5f9330e66}} 
+\index{db@{db}!db@{db}}
+\index{db@{db}!db@{db}}
+\doxysubsubsection{\texorpdfstring{db()}{db()}}
+{\footnotesize\ttfamily db\+::db (\begin{DoxyParamCaption}\item[{string}]{db\+\_\+name = {\ttfamily \char`\"{}passwd.sqlite3\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+dbのコンストラクタ、ここでsqlにコネクトして情報を保持する 
+
+
+\begin{DoxyParams}{Parameters}
+{\em db\+\_\+name} & 使用するsqlite3の\+DBファイル名(相対パス) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdb_acff925896188a6a78e4f9fbe567f4d01}\label{classdb_acff925896188a6a78e4f9fbe567f4d01}} 
+\index{db@{db}!is\_logined@{is\_logined}}
+\index{is\_logined@{is\_logined}!db@{db}}
+\doxysubsubsection{\texorpdfstring{is\_logined()}{is\_logined()}}
+{\footnotesize\ttfamily bool db\+::is\+\_\+logined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+PWマネージャーにすでにログインしているかを返す 
+
+\begin{DoxyReturn}{Returns}
+true 既にログインしている場合 
+
+false まだログインできていない場合 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdb_a6467d25aa65b8b8d0c206a6afad7df14}\label{classdb_a6467d25aa65b8b8d0c206a6afad7df14}} 
+\index{db@{db}!is\_registered@{is\_registered}}
+\index{is\_registered@{is\_registered}!db@{db}}
+\doxysubsubsection{\texorpdfstring{is\_registered()}{is\_registered()}}
+{\footnotesize\ttfamily bool db\+::is\+\_\+registered (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+PWマネージャーのパスワードが既に登録されているかを返す 
+
+\begin{DoxyReturn}{Returns}
+true 登録されている場合 
+
+false 登録されていない場合 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception(\char`\"{}multiple}}} & keys were found"{}) 複数のキーが登録されていた場合 \\
+\hline
+{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classdb_a1ad155d7f112ccc7dcea8340095ca0be}\label{classdb_a1ad155d7f112ccc7dcea8340095ca0be}} 
+\index{db@{db}!login@{login}}
+\index{login@{login}!db@{db}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily bool db\+::login (\begin{DoxyParamCaption}\item[{string}]{passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+PWマネージャーにログインする 
+
+
+\begin{DoxyParams}{Parameters}
+{\em passwd} & ログインパスワード \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true パスワードが正しく、ログインに成功した場合 
+
+false パスワードが間違っていてログインに失敗した場合 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception(\char`\"{}no}}} & key has been registered\char`\"{}) パスワードが未登録の場合 @exception db\+\_\+exception(\char`\"{}multiple keys were found"{}) 複数のキーが登録されていた場合 \\
+\hline
+{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classdb_af1236df492f06eae8702df6bd73111af}\label{classdb_af1236df492f06eae8702df6bd73111af}} 
+\index{db@{db}!register\_passwd@{register\_passwd}}
+\index{register\_passwd@{register\_passwd}!db@{db}}
+\doxysubsubsection{\texorpdfstring{register\_passwd()}{register\_passwd()}}
+{\footnotesize\ttfamily void db\+::register\+\_\+passwd (\begin{DoxyParamCaption}\item[{string}]{passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+PWマネージャーのパスワードを登録している 
+
+
+\begin{DoxyParams}{Parameters}
+{\em passwd} & 登録するパスワード \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception(\char`\"{}a}}} & key has already been registered\char`\"{}) パスワードが既に登録されている場合 @exception db\+\_\+exception(\char`\"{}multiple keys were found"{}) 複数のキーが登録されていた場合 \\
+\hline
+{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/kowerkoint/\+Documents/\+GUIApp\+\_\+\+Team\+Dev2021/db.\+hpp\end{DoxyCompactItemize}
