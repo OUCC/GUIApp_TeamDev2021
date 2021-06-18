@@ -76,3 +76,49 @@ void Main()
         }
     }
 }
+//loginの画面
+void Main()
+{
+    Scene::SetBackground(Color(106.0, 90.0, 205.0,1.0));
+    Window::SetStyle(WindowStyle::Sizable);
+    const Font font1(30, Typeface::Bold);
+ 
+    TextEditState tes2;
+    tes2.text = U"Password";
+
+    const Font font2(60, Typeface::Bold);
+    constexpr Vec2 center(400, 70);
+    const String text = U"Welcome";
+    
+    constexpr ColorF buttonColor(1.0, 90.0, 205.0,0.5);
+    constexpr Circle button(700, 400, 20);
+    Transition press(0.05s, 0.05s);
+
+        
+    while (System::Update())
+{
+    const bool mouseOver = button.mouseOver();
+    // 円の上にマウスカーソルがあれば
+    if (mouseOver)
+    {
+        Cursor::RequestStyle(CursorStyle::Hand);
+    }
+    press.update(button.leftPressed());
+    const double t = press.value();
+    button.movedBy(Vec2(0, 0).lerp(Vec2(0, 4), t))
+    .drawShadow(Vec2(0, 6).lerp(Vec2(0, 1), t), 12 - t * 7, 5 - t * 4)
+    .draw(buttonColor);
+    
+    // center から (4, 4) ずらした位置を中心にテキストを描く
+    font2(text).drawAt(center.movedBy(4, 4), ColorF(106, 90, 205,0.5));
+    font2(text).drawAt(center);
+    SimpleGUI::TextBox(tes2, Vec2(200, 420),250,18);
+    if (SimpleGUI::Button(U"Clear", Vec2(470, 420)))
+    {
+    tes2.clear();
+    }
+
+
+    }
+   
+};
