@@ -1,4 +1,5 @@
 ﻿# include <Siv3D.hpp>
+# include "db.hpp"
 
 using App = SceneManager<String>;
 
@@ -52,6 +53,12 @@ public:
     }
 };
 
+void kowerkoint_dbg() {
+    db database;
+    // Print << database.register_passwd(U"vim");
+    Print << database.login(U"emacs"); // except false
+}
+
 void Main()
 {
     // シーンマネージャーを作成
@@ -66,6 +73,7 @@ void Main()
     // フェードイン・フェードアウト時の画面の色
     manager.setFadeColor(Palette::Skyblue);
 
+    kowerkoint_dbg();
     while(System::Update())
     {
         // 現在のシーンを実行
