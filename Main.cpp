@@ -1,124 +1,85 @@
-# include <Siv3D.hpp>
-
+#include <Siv3D.hpp>
 using App = SceneManager<String>;
 
 // ログインシーン
-class Login : public App::Scene
-{
+class Login : public App::Scene {
+private:
+    Font *font;
+    TextEditState tes;
+    Vec2 *center;
+    ColorF *buttonColor;
+    Circle *button;
+    Transition *press;
+    const String text = U"Welcome";
+
 public:
+    Login(const InitData& init): IScene(init) { // コンストラクタ（必ず実装
+        font = new Font(60, Typeface::Bold);
+        center = new Vec2(400, 70);
+        buttonColor = new ColorF(1.0, 90.0, 205.0, 0.5);
+        button = new Circle(700, 400, 20);
+        press = new Transition(0.05s, 0.05s);
 
-    // コンストラクタ（必ず実装）
-    Login(const InitData& init): IScene(init)
-    {
-
+        Scene::SetBackground(Color(106.0, 90.0, 205.0, 1.0));                
+        tes.text = U"Password";
     }
 
-    // 更新関数
-    void update() override
-    {
-        if(SimpleGUI::Button(U"Red", Vec2(100, 100)))
-        {
-            if(/*ログイン関数*/1){
-                // メインシーンに 1 秒かけて遷移
-                changeScene(U"MainScene", 1.0s);
-            }
+    ~Login(){ // Destructor
+        delete font;
+        delete center;
+        delete buttonColor;
+        delete button;
+        delete press;
+    }
+
+    void update() override { // 更新関数
+        const bool mouseOver = button->mouseOver();
+        if(mouseOver) Cursor::RequestStyle(CursorStyle::Hand); // 円の上にマウスカーソルがあれば
+        press->update(button->leftPressed());
+        const double t = press->value();
+        button->movedBy(Vec2(0, 0).lerp(Vec2(0, 4), t))
+            .drawShadow(Vec2(0, 6).lerp(Vec2(0, 1), t), 12-t*7, 5-t*4)
+            .draw(*buttonColor);
+
+        // center から (4, 4) ずらした位置を中心にテキストを描く
+        (*font)(text).drawAt(center->movedBy(4, 4), ColorF(106, 90, 205, 0.5));
+        (*font)(text).drawAt(*center);
+        SimpleGUI::TextBox(tes, Vec2(200, 420), 250, 18);
+        if(SimpleGUI::Button(U"Clear", Vec2(470, 420))) tes.clear();
+        if(button->leftPressed()){
+            if(/*ログイン関数*/1) changeScene(U"MainScene", 1.0s); // メインシーンに 1 秒かけて遷移
         }
     }
 
-    // 描画関数 (const 修飾)
-    void draw() const override
-    {
+    void draw() const override { // 描画関数 (const 修飾)
         Scene::SetBackground(ColorF(0.3, 0.4, 0.5));
     }
 };
 
 // メインシーン
-class MainScene : public App::Scene
-{
+class MainScene : public App::Scene {
 public:
-    MainScene(const InitData& init): IScene(init)
-    {
+    MainScene(const InitData& init): IScene(init) {
 
     }
 
-    // 更新関数
-    void update() override
-    {
+    void update() override {
 
     }
 
-    void draw() const override
-    {
+    void draw() const override {
         Scene::SetBackground(ColorF(0.2, 0.8, 0.6));
     }
 };
 
-void Main()
-{
-    // シーンマネージャーを作成
-    App manager;
+void Main() {
+    App manager; // シーンマネージャーを作成
+    manager.add<Login>(U"Login"); // ログインシーン（名前は U"Login"）を登録
+    manager.add<MainScene>(U"MainScene"); // メインシーン（名前は U"MainScene"）を登録
+    manager.setFadeColor(Palette::Skyblue); // フェードイン・フェードアウト時の画面の色
+    Window::SetStyle(WindowStyle::Sizable);
 
-    // ログインシーン（名前は U"Login"）を登録
-    manager.add<Login>(U"Login");
-
-    // メインシーン（名前は U"MainScene"）を登録
-    manager.add<MainScene>(U"MainScene");
-
-    // フェードイン・フェードアウト時の画面の色
-    manager.setFadeColor(Palette::Skyblue);
-
-    while(System::Update())
-    {
-        // 現在のシーンを実行
-        if(!manager.update())
-        {
-            break;
-        }
+    while(System::Update()){
+        if(!manager.update()) break; // 現在のシーンを実行
     }
 }
-//loginの画面
-void Main()
-{
-    Scene::SetBackground(Color(106.0, 90.0, 205.0,1.0));
-    Window::SetStyle(WindowStyle::Sizable);
-    const Font font1(30, Typeface::Bold);
- 
-    TextEditState tes2;
-    tes2.text = U"Password";
-
-    const Font font2(60, Typeface::Bold);
-    constexpr Vec2 center(400, 70);
-    const String text = U"Welcome";
-    
-    constexpr ColorF buttonColor(1.0, 90.0, 205.0,0.5);
-    constexpr Circle button(700, 400, 20);
-    Transition press(0.05s, 0.05s);
-
-        
-    while (System::Update())
-{
-    const bool mouseOver = button.mouseOver();
-    // 円の上にマウスカーソルがあれば
-    if (mouseOver)
-    {
-        Cursor::RequestStyle(CursorStyle::Hand);
-    }
-    press.update(button.leftPressed());
-    const double t = press.value();
-    button.movedBy(Vec2(0, 0).lerp(Vec2(0, 4), t))
-    .drawShadow(Vec2(0, 6).lerp(Vec2(0, 1), t), 12 - t * 7, 5 - t * 4)
-    .draw(buttonColor);
-    
-    // center から (4, 4) ずらした位置を中心にテキストを描く
-    font2(text).drawAt(center.movedBy(4, 4), ColorF(106, 90, 205,0.5));
-    font2(text).drawAt(center);
-    SimpleGUI::TextBox(tes2, Vec2(200, 420),250,18);
-    if (SimpleGUI::Button(U"Clear", Vec2(470, 420)))
-    {
-    tes2.clear();
-    }
-
-
-    }
-   
-};
