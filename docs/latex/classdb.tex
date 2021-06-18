@@ -12,18 +12,15 @@ DBの表面上の\+I/\+Oを担当するクラス
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classdb_ad149925a63269562ef5438f5f9330e66}{db}} (string db\+\_\+name=\char`\"{}passwd.\+sqlite3\char`\"{})
-\begin{DoxyCompactList}\small\item\em dbのコンストラクタ、ここでsqlにコネクトして情報を保持する \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classdb_a752ca59d657d028155948a580f86004f}\label{classdb_a752ca59d657d028155948a580f86004f}} 
-virtual \mbox{\hyperlink{classdb_a752ca59d657d028155948a580f86004f}{$\sim$db}} ()
-\begin{DoxyCompactList}\small\item\em dbのデストラクタ、sqlの接続を切断する \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdb_a537e1ac8277ac1d752c383d780f92579}{db}} (String key\+\_\+db\+\_\+name=U\char`\"{}key.\+dat\char`\"{}, String main\+\_\+db\+\_\+name=U\char`\"{}main.\+dat\char`\"{})
+\begin{DoxyCompactList}\small\item\em dbのコンストラクタ \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_a6467d25aa65b8b8d0c206a6afad7df14}{is\+\_\+registered}} ()
 \begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードが既に登録されているかを返す \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_acff925896188a6a78e4f9fbe567f4d01}{is\+\_\+logined}} ()
 \begin{DoxyCompactList}\small\item\em PWマネージャーにすでにログインしているかを返す \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classdb_af1236df492f06eae8702df6bd73111af}{register\+\_\+passwd}} (string passwd)
+void \mbox{\hyperlink{classdb_a0421e23600a1802f95527e1c233a671e}{register\+\_\+passwd}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録している \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classdb_a1ad155d7f112ccc7dcea8340095ca0be}{login}} (string passwd)
+bool \mbox{\hyperlink{classdb_a359f57f1d20aadc602b3bd1e773a7859}{login}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーにログインする \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -31,26 +28,21 @@ bool \mbox{\hyperlink{classdb_a1ad155d7f112ccc7dcea8340095ca0be}{login}} (string
 DBの表面上の\+I/\+Oを担当するクラス 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classdb_ad149925a63269562ef5438f5f9330e66}\label{classdb_ad149925a63269562ef5438f5f9330e66}} 
+\mbox{\Hypertarget{classdb_a537e1ac8277ac1d752c383d780f92579}\label{classdb_a537e1ac8277ac1d752c383d780f92579}} 
 \index{db@{db}!db@{db}}
 \index{db@{db}!db@{db}}
 \doxysubsubsection{\texorpdfstring{db()}{db()}}
-{\footnotesize\ttfamily db\+::db (\begin{DoxyParamCaption}\item[{string}]{db\+\_\+name = {\ttfamily \char`\"{}passwd.sqlite3\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily db\+::db (\begin{DoxyParamCaption}\item[{String}]{key\+\_\+db\+\_\+name = {\ttfamily U\char`\"{}key.dat\char`\"{}},  }\item[{String}]{main\+\_\+db\+\_\+name = {\ttfamily U\char`\"{}main.dat\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-dbのコンストラクタ、ここでsqlにコネクトして情報を保持する 
+dbのコンストラクタ 
 
 
 \begin{DoxyParams}{Parameters}
-{\em db\+\_\+name} & 使用するsqlite3の\+DBファイル名(相対パス) \\
+{\em db\+\_\+name} & 使用する\+DBファイル名 \\
 \hline
 \end{DoxyParams}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
-\hline
-\end{DoxyExceptions}
 
 
 \doxysubsection{Member Function Documentation}
@@ -86,16 +78,14 @@ false 登録されていない場合
 \end{DoxyReturn}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception(\char`\"{}multiple}}} & keys were found"{}) 複数のキーが登録されていた場合 \\
-\hline
-{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & 複数のキーが登録されていた場合 \\
 \hline
 \end{DoxyExceptions}
-\mbox{\Hypertarget{classdb_a1ad155d7f112ccc7dcea8340095ca0be}\label{classdb_a1ad155d7f112ccc7dcea8340095ca0be}} 
+\mbox{\Hypertarget{classdb_a359f57f1d20aadc602b3bd1e773a7859}\label{classdb_a359f57f1d20aadc602b3bd1e773a7859}} 
 \index{db@{db}!login@{login}}
 \index{login@{login}!db@{db}}
 \doxysubsubsection{\texorpdfstring{login()}{login()}}
-{\footnotesize\ttfamily bool db\+::login (\begin{DoxyParamCaption}\item[{string}]{passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily bool db\+::login (\begin{DoxyParamCaption}\item[{String}]{passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -113,16 +103,14 @@ false パスワードが間違っていてログインに失敗した場合
 \end{DoxyReturn}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception(\char`\"{}no}}} & key has been registered\char`\"{}) パスワードが未登録の場合 @exception db\+\_\+exception(\char`\"{}multiple keys were found"{}) 複数のキーが登録されていた場合 \\
-\hline
-{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & パスワードが未登録の場合、複数のキーが登録されていた場合 \\
 \hline
 \end{DoxyExceptions}
-\mbox{\Hypertarget{classdb_af1236df492f06eae8702df6bd73111af}\label{classdb_af1236df492f06eae8702df6bd73111af}} 
+\mbox{\Hypertarget{classdb_a0421e23600a1802f95527e1c233a671e}\label{classdb_a0421e23600a1802f95527e1c233a671e}} 
 \index{db@{db}!register\_passwd@{register\_passwd}}
 \index{register\_passwd@{register\_passwd}!db@{db}}
 \doxysubsubsection{\texorpdfstring{register\_passwd()}{register\_passwd()}}
-{\footnotesize\ttfamily void db\+::register\+\_\+passwd (\begin{DoxyParamCaption}\item[{string}]{passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily void db\+::register\+\_\+passwd (\begin{DoxyParamCaption}\item[{String}]{passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -135,13 +123,11 @@ PWマネージャーのパスワードを登録している
 \end{DoxyParams}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception(\char`\"{}a}}} & key has already been registered\char`\"{}) パスワードが既に登録されている場合 @exception db\+\_\+exception(\char`\"{}multiple keys were found"{}) 複数のキーが登録されていた場合 \\
-\hline
-{\em \mbox{\hyperlink{classsql__exception}{sql\+\_\+exception}}} & \\
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & パスワードが既に登録されている場合、複数のキーが登録されていた場合 \\
 \hline
 \end{DoxyExceptions}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/kowerkoint/\+Documents/\+GUIApp\+\_\+\+Team\+Dev2021/db.\+hpp\end{DoxyCompactItemize}
+db.\+hpp\end{DoxyCompactItemize}

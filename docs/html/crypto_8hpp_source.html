@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GUIApp_TeamDev2021: C:/Users/kowerkoint/Documents/GUIApp_TeamDev2021/crypto.hpp Source File</title>
+<title>GUIApp_TeamDev2021: crypto.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,27 +82,33 @@ $(document).ready(function(){initNavTree('crypto_8hpp_source.html',''); initResi
 
 <div class="header">
   <div class="headertitle">
-<div class="title">C:/Users/kowerkoint/Documents/GUIApp_TeamDev2021/crypto.hpp</div>  </div>
+<div class="title">crypto.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;crypto++/cryptlib.h&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;crypto++/hex.h&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;crypto++/sha.h&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>CryptoPP;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iomanip&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;openssl/sha.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Siv3D.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">string</span> sha256(<span class="keywordtype">string</span> text) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    SHA256 hash;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">string</span> digest, res;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    hash.Update((<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*)text.data(), text.size());</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    digest.resize(hash.DigestSize());</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    hash.Final((<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*)&amp;digest[0]);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    HexEncoder encoder(<span class="keyword">new</span> StringSink(res), <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    StringSource(digest, <span class="keyword">true</span>, <span class="keyword">new</span> Redirector(encoder));</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;String binary_to_hexstring(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* binary, <span class="keywordtype">int</span> size) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    stringstream ss;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ss &lt;&lt; hex &lt;&lt; setfill(<span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; size; i++) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        ss &lt;&lt; setw(2) &lt;&lt; (int)binary[i];</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> Unicode::FromUTF8(ss.str());</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;String sha256(String text) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> digest[SHA256_DIGEST_LENGTH];</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* cc = text.toUTF8().c_str();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* cuc = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(cc);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    SHA256(cuc, <span class="keyword">sizeof</span>(cuc) - 1, digest);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">return</span> binary_to_hexstring(digest, SHA256_DIGEST_LENGTH);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

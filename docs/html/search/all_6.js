@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['user_5fname_11',['user_name',['../structsingle__data.html#a6da4f25068cc1a9ffbad1c67e8641c21',1,'single_data']]]
+  ['service_5fname_10',['service_name',['../structsingle__data.html#a7cebcbbccba5194c92a8933d7f3e7345',1,'single_data']]],
+  ['single_5fdata_11',['single_data',['../structsingle__data.html',1,'single_data'],['../structsingle__data.html#a0f1bf1b2c5c56be72139925188de472d',1,'single_data::single_data()']]]
 ];
