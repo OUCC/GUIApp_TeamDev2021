@@ -1,4 +1,5 @@
 .vscode
-main.cpp
 *.sqlite3
 *.out
+App
+SivTest*

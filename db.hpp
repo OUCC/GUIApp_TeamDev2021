@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-using namespace CryptoPP;
 using namespace std;
 
 /**

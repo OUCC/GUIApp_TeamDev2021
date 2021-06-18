@@ -1,18 +1,22 @@
-#include <crypto++/cryptlib.h>
-#include <crypto++/hex.h>
-#include <crypto++/sha.h>
 #include <string>
+#include <sstream>
+#include <iomanip>
+#include <openssl/sha.h>
 
 using namespace std;
-using namespace CryptoPP;
+
+string binary_to_hexstring(unsigned char* binary, int size) {
+    stringstream ss;
+    ss << hex << setfill('0');
+    for(int i = 0; i < size; i++) {
+        ss << setw(2) << (int)binary[i];
+    }
+    return ss.str();
+}
 
 string sha256(string text) {
-    SHA256 hash;
-    string digest, res;
-    hash.Update((const unsigned char*)text.data(), text.size());
-    digest.resize(hash.DigestSize());
-    hash.Final((unsigned char*)&digest[0]);
-    HexEncoder encoder(new StringSink(res), false);
-    StringSource(digest, true, new Redirector(encoder));
-    return res;
+    const char* cstr = text.c_str();
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256((const char*) cstr, sizeof(cstr) - 1, digest);
+    return binary_to_hexstring(digest, SHA256_DIGEST_LENGTH);
 }
