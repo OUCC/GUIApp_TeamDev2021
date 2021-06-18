@@ -43,8 +43,7 @@ public:
  * 
  * @return true 登録されている場合
  * @return false 登録されていない場合
- * @exception db_exception("multiple keys were found") 複数のキーが登録されていた場合
- * @exception sql_exception
+ * @exception db_exception 複数のキーが登録されていた場合
  */
     bool is_registered() {
         return get_db_key() != U"";
@@ -64,9 +63,7 @@ public:
  * @brief PWマネージャーのパスワードを登録している
  * 
  * @param passwd 登録するパスワード
- * @exception db_exception("a key has already been registered") パスワードが既に登録されている場合
- * @exception db_exception("multiple keys were found") 複数のキーが登録されていた場合
- * @exception sql_exception
+ * @exception db_exception パスワードが既に登録されている場合、複数のキーが登録されていた場合
  */
     void register_passwd(String passwd) {
         String db_key = get_db_key();
@@ -88,9 +85,7 @@ public:
  * @param passwd ログインパスワード
  * @return true パスワードが正しく、ログインに成功した場合
  * @return false パスワードが間違っていてログインに失敗した場合
- * @exception db_exception("no key has been registered") パスワードが未登録の場合
- * @exception db_exception("multiple keys were found") 複数のキーが登録されていた場合
- * @exception sql_exception
+ * @exception db_exception パスワードが未登録の場合、複数のキーが登録されていた場合
  */
     bool login(String passwd) {
         String hash = sha256(passwd);
