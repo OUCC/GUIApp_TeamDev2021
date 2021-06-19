@@ -55,8 +55,10 @@ public:
 
 void kowerkoint_dbg() {
     db database;
-    // Print << database.register_passwd(U"vim");
-    Print << database.login(U"emacs"); // except false
+    //database.register_passwd(U"vim");
+    Print << database.login(U"vim");
+    String cipher = aes256_encrypt(U"yes", U"no");
+    Print << aes256_decrypt(cipher, U"no");
 }
 
 void Main()

@@ -32,5 +32,5 @@ struct single_data {
         service_name(service_name),
         user_name(user_name),
         password(password)
-    {};
+    {}
 };
