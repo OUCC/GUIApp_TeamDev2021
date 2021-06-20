@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write_5fdata_26',['write_data',['../classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91',1,'db']]]
+  ['single_5fdata_27',['single_data',['../classsingle__data.html#ab7a16cffccede11793123b709ba5e255',1,'single_data::single_data(String service_name, String user_name, String password)'],['../classsingle__data.html#af6c51f4a0623ae2125553a84f2dc0c7c',1,'single_data::single_data()']]]
 ];

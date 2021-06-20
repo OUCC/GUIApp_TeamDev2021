@@ -1,6 +1,7 @@
 var classdb =
 [
     [ "db", "classdb.html#a537e1ac8277ac1d752c383d780f92579", null ],
+    [ "change_passwd", "classdb.html#aebfa8eb1cbd3825f5f7a56f8c95d9f49", null ],
     [ "is_logined", "classdb.html#acff925896188a6a78e4f9fbe567f4d01", null ],
     [ "is_registered", "classdb.html#a6467d25aa65b8b8d0c206a6afad7df14", null ],
     [ "login", "classdb.html#a359f57f1d20aadc602b3bd1e773a7859", null ],

@@ -108,6 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0421e23600a1802f95527e1c233a671e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a0421e23600a1802f95527e1c233a671e">register_passwd</a> (String passwd)</td></tr>
 <tr class="memdesc:a0421e23600a1802f95527e1c233a671e"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーのパスワードを登録している  <a href="classdb.html#a0421e23600a1802f95527e1c233a671e">More...</a><br /></td></tr>
 <tr class="separator:a0421e23600a1802f95527e1c233a671e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebfa8eb1cbd3825f5f7a56f8c95d9f49"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#aebfa8eb1cbd3825f5f7a56f8c95d9f49">change_passwd</a> (String old_passwd, String new_passwd)</td></tr>
+<tr class="memdesc:aebfa8eb1cbd3825f5f7a56f8c95d9f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーのパスワードを変更する  <a href="classdb.html#aebfa8eb1cbd3825f5f7a56f8c95d9f49">More...</a><br /></td></tr>
+<tr class="separator:aebfa8eb1cbd3825f5f7a56f8c95d9f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a359f57f1d20aadc602b3bd1e773a7859"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">login</a> (String passwd)</td></tr>
 <tr class="memdesc:a359f57f1d20aadc602b3bd1e773a7859"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーにログインする  <a href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">More...</a><br /></td></tr>
 <tr class="separator:a359f57f1d20aadc602b3bd1e773a7859"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,7 +161,8 @@ Public Member Functions</h2></td></tr>
 <p>dbのコンストラクタ </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">db_name</td><td>使用するDBファイル名 </td></tr>
+    <tr><td class="paramname">key_db_name</td><td>PWマネージャーのパスワードとして使用するDBファイル名 </td></tr>
+    <tr><td class="paramname">main_db_name</td><td>データの保存先として使用するDBファイル名 </td></tr>
   </table>
   </dd>
 </dl>
@@ -166,6 +170,60 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aebfa8eb1cbd3825f5f7a56f8c95d9f49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebfa8eb1cbd3825f5f7a56f8c95d9f49">&#9670;&nbsp;</a></span>change_passwd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int db::change_passwd </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>old_passwd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>new_passwd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>PWマネージャーのパスワードを変更する </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">old_passwd</td><td>変更前のパスワード </td></tr>
+    <tr><td class="paramname">new_passwd</td><td>変更後のパスワード </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classdb__exception.html" title="想定されていない操作が行われたことを表す例外クラス">db_exception</a></td><td>パスワード未登録の場合 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true 変更前のパスワードが正しく、変更に成功した場合 </dd>
+<dd>
+false 変更前のパスワードが間違っていて変更に失敗した場合 </dd></dl>
+
+</div>
+</div>
 <a id="acff925896188a6a78e4f9fbe567f4d01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acff925896188a6a78e4f9fbe567f4d01">&#9670;&nbsp;</a></span>is_logined()</h2>
 

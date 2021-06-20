@@ -20,6 +20,8 @@ bool \mbox{\hyperlink{classdb_acff925896188a6a78e4f9fbe567f4d01}{is\+\_\+logined
 \begin{DoxyCompactList}\small\item\em PWマネージャーにすでにログインしているかを返す \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classdb_a0421e23600a1802f95527e1c233a671e}{register\+\_\+passwd}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録している \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classdb_aebfa8eb1cbd3825f5f7a56f8c95d9f49}{change\+\_\+passwd}} (String old\+\_\+passwd, String new\+\_\+passwd)
+\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを変更する \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_a359f57f1d20aadc602b3bd1e773a7859}{login}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーにログインする \end{DoxyCompactList}\item 
 Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ \mbox{\hyperlink{classdb_a26fd9bac41fb7235130235951f2e22ae}{read\+\_\+data}} ()
@@ -44,12 +46,41 @@ dbのコンストラクタ
 
 
 \begin{DoxyParams}{Parameters}
-{\em db\+\_\+name} & 使用する\+DBファイル名 \\
+{\em key\+\_\+db\+\_\+name} & PWマネージャーのパスワードとして使用する\+DBファイル名 \\
+\hline
+{\em main\+\_\+db\+\_\+name} & データの保存先として使用する\+DBファイル名 \\
 \hline
 \end{DoxyParams}
 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdb_aebfa8eb1cbd3825f5f7a56f8c95d9f49}\label{classdb_aebfa8eb1cbd3825f5f7a56f8c95d9f49}} 
+\index{db@{db}!change\_passwd@{change\_passwd}}
+\index{change\_passwd@{change\_passwd}!db@{db}}
+\doxysubsubsection{\texorpdfstring{change\_passwd()}{change\_passwd()}}
+{\footnotesize\ttfamily int db\+::change\+\_\+passwd (\begin{DoxyParamCaption}\item[{String}]{old\+\_\+passwd,  }\item[{String}]{new\+\_\+passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+PWマネージャーのパスワードを変更する 
+
+
+\begin{DoxyParams}{Parameters}
+{\em old\+\_\+passwd} & 変更前のパスワード \\
+\hline
+{\em new\+\_\+passwd} & 変更後のパスワード \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & パスワード未登録の場合 \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyReturn}{Returns}
+true 変更前のパスワードが正しく、変更に成功した場合 
+
+false 変更前のパスワードが間違っていて変更に失敗した場合 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classdb_acff925896188a6a78e4f9fbe567f4d01}\label{classdb_acff925896188a6a78e4f9fbe567f4d01}} 
 \index{db@{db}!is\_logined@{is\_logined}}
 \index{is\_logined@{is\_logined}!db@{db}}

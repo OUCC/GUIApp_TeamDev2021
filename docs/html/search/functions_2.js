@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['login_22',['login',['../classdb.html#a359f57f1d20aadc602b3bd1e773a7859',1,'db']]]
+  ['is_5flogined_22',['is_logined',['../classdb.html#acff925896188a6a78e4f9fbe567f4d01',1,'db']]],
+  ['is_5fregistered_23',['is_registered',['../classdb.html#a6467d25aa65b8b8d0c206a6afad7df14',1,'db']]]
 ];
