@@ -108,9 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0421e23600a1802f95527e1c233a671e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a0421e23600a1802f95527e1c233a671e">register_passwd</a> (String passwd)</td></tr>
 <tr class="memdesc:a0421e23600a1802f95527e1c233a671e"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーのパスワードを登録している  <a href="classdb.html#a0421e23600a1802f95527e1c233a671e">More...</a><br /></td></tr>
 <tr class="separator:a0421e23600a1802f95527e1c233a671e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebfa8eb1cbd3825f5f7a56f8c95d9f49"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#aebfa8eb1cbd3825f5f7a56f8c95d9f49">change_passwd</a> (String old_passwd, String new_passwd)</td></tr>
-<tr class="memdesc:aebfa8eb1cbd3825f5f7a56f8c95d9f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーのパスワードを変更する  <a href="classdb.html#aebfa8eb1cbd3825f5f7a56f8c95d9f49">More...</a><br /></td></tr>
-<tr class="separator:aebfa8eb1cbd3825f5f7a56f8c95d9f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8db8c887e8d3ca0c23ebca2f6399363"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">change_passwd</a> (String old_passwd, String new_passwd)</td></tr>
+<tr class="memdesc:af8db8c887e8d3ca0c23ebca2f6399363"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread_data()、write_data()は新しいパスワードでの暗号化/復号化化がなされます ログインも済んだことになります(ログイン済みの状態で呼び出すことが想定されますが…)  <a href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">More...</a><br /></td></tr>
+<tr class="separator:af8db8c887e8d3ca0c23ebca2f6399363"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a359f57f1d20aadc602b3bd1e773a7859"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">login</a> (String passwd)</td></tr>
 <tr class="memdesc:a359f57f1d20aadc602b3bd1e773a7859"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーにログインする  <a href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">More...</a><br /></td></tr>
 <tr class="separator:a359f57f1d20aadc602b3bd1e773a7859"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,8 +170,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aebfa8eb1cbd3825f5f7a56f8c95d9f49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebfa8eb1cbd3825f5f7a56f8c95d9f49">&#9670;&nbsp;</a></span>change_passwd()</h2>
+<a id="af8db8c887e8d3ca0c23ebca2f6399363"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8db8c887e8d3ca0c23ebca2f6399363">&#9670;&nbsp;</a></span>change_passwd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +180,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int db::change_passwd </td>
+          <td class="memname">bool db::change_passwd </td>
           <td>(</td>
           <td class="paramtype">String&#160;</td>
           <td class="paramname"><em>old_passwd</em>, </td>
@@ -204,7 +204,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>PWマネージャーのパスワードを変更する </p>
+<p>PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread_data()、write_data()は新しいパスワードでの暗号化/復号化化がなされます ログインも済んだことになります(ログイン済みの状態で呼び出すことが想定されますが…) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">old_passwd</td><td>変更前のパスワード </td></tr>

@@ -20,8 +20,8 @@ bool \mbox{\hyperlink{classdb_acff925896188a6a78e4f9fbe567f4d01}{is\+\_\+logined
 \begin{DoxyCompactList}\small\item\em PWマネージャーにすでにログインしているかを返す \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classdb_a0421e23600a1802f95527e1c233a671e}{register\+\_\+passwd}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録している \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{classdb_aebfa8eb1cbd3825f5f7a56f8c95d9f49}{change\+\_\+passwd}} (String old\+\_\+passwd, String new\+\_\+passwd)
-\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを変更する \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classdb_af8db8c887e8d3ca0c23ebca2f6399363}{change\+\_\+passwd}} (String old\+\_\+passwd, String new\+\_\+passwd)
+\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread\+\_\+data()、write\+\_\+data()は新しいパスワードでの暗号化/復号化化がなされます ログインも済んだことになります(ログイン済みの状態で呼び出すことが想定されますが…) \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_a359f57f1d20aadc602b3bd1e773a7859}{login}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーにログインする \end{DoxyCompactList}\item 
 Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ \mbox{\hyperlink{classdb_a26fd9bac41fb7235130235951f2e22ae}{read\+\_\+data}} ()
@@ -54,15 +54,15 @@ dbのコンストラクタ
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classdb_aebfa8eb1cbd3825f5f7a56f8c95d9f49}\label{classdb_aebfa8eb1cbd3825f5f7a56f8c95d9f49}} 
+\mbox{\Hypertarget{classdb_af8db8c887e8d3ca0c23ebca2f6399363}\label{classdb_af8db8c887e8d3ca0c23ebca2f6399363}} 
 \index{db@{db}!change\_passwd@{change\_passwd}}
 \index{change\_passwd@{change\_passwd}!db@{db}}
 \doxysubsubsection{\texorpdfstring{change\_passwd()}{change\_passwd()}}
-{\footnotesize\ttfamily int db\+::change\+\_\+passwd (\begin{DoxyParamCaption}\item[{String}]{old\+\_\+passwd,  }\item[{String}]{new\+\_\+passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily bool db\+::change\+\_\+passwd (\begin{DoxyParamCaption}\item[{String}]{old\+\_\+passwd,  }\item[{String}]{new\+\_\+passwd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-PWマネージャーのパスワードを変更する 
+PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread\+\_\+data()、write\+\_\+data()は新しいパスワードでの暗号化/復号化化がなされます ログインも済んだことになります(ログイン済みの状態で呼び出すことが想定されますが…) 
 
 
 \begin{DoxyParams}{Parameters}

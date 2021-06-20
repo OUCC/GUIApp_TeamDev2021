@@ -17,7 +17,7 @@ var NAVTREEINDEX0 =
 "classdb.html#a537e1ac8277ac1d752c383d780f92579":[0,0,0,0],
 "classdb.html#a6467d25aa65b8b8d0c206a6afad7df14":[0,0,0,3],
 "classdb.html#acff925896188a6a78e4f9fbe567f4d01":[0,0,0,2],
-"classdb.html#aebfa8eb1cbd3825f5f7a56f8c95d9f49":[0,0,0,1],
+"classdb.html#af8db8c887e8d3ca0c23ebca2f6399363":[0,0,0,1],
 "classdb__exception.html":[0,0,1],
 "classdb__exception.html#a9be72d5a41a36dc20fbe956791694129":[0,0,1,0],
 "classes.html":[0,1],

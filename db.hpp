@@ -82,6 +82,7 @@ public:
 
 /**
 * @brief PWマネージャーのパスワードを変更する
+* @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread_data()、write_data()は新しいパスワードでの暗号化/復号化化がなされます ログインも済んだことになります(ログイン済みの状態で呼び出すことが想定されますが…)
 * 
 * @param old_passwd 変更前のパスワード
 * @param new_passwd 変更後のパスワード
@@ -89,7 +90,7 @@ public:
 * @return true 変更前のパスワードが正しく、変更に成功した場合
 * @return false 変更前のパスワードが間違っていて変更に失敗した場合
 */
-    int change_passwd(String old_passwd, String new_passwd) {
+    bool change_passwd(String old_passwd, String new_passwd) {
         String old_hash = sha256(old_passwd);
         String db_key = get_db_key();
         if (db_key == U"") {
