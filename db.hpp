@@ -33,7 +33,8 @@ public:
 /**
  * @brief dbのコンストラクタ
  * 
- * @param db_name 使用するDBファイル名
+ * @param key_db_name PWマネージャーのパスワードとして使用するDBファイル名
+ * @param main_db_name データの保存先として使用するDBファイル名
  */
     db(String key_db_name = U"key.dat", String main_db_name = U"main.dat") :
         key_db_name(key_db_name), main_db_name(main_db_name) {}
@@ -77,6 +78,37 @@ public:
         }
         writer(db_key);
         key = passwd;
+    }
+
+/**
+* @brief PWマネージャーのパスワードを変更する
+* 
+* @param old_passwd 変更前のパスワード
+* @param new_passwd 変更後のパスワード
+* @exception db_exception パスワード未登録の場合
+* @return true 変更前のパスワードが正しく、変更に成功した場合
+* @return false 変更前のパスワードが間違っていて変更に失敗した場合
+*/
+    int change_passwd(String old_passwd, String new_passwd) {
+        String old_hash = sha256(old_passwd);
+        String db_key = get_db_key();
+        if (db_key == U"") {
+            throw db_exception("no key has been registered");
+        }
+        if (old_hash != db_key) {
+            return false;
+        }
+        db_key = sha256(new_passwd);
+        Serializer<BinaryWriter> writer(key_db_name);
+        if (!writer.getWriter()) {
+            throw Error(U"Failed to open `{}`"_fmt(key_db_name));
+        }
+        writer(db_key);
+
+        Array<single_data> data = read_data();
+        key = new_passwd;
+        write_data(data);
+        return true;
     }
 
 /**
