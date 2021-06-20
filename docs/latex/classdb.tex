@@ -21,7 +21,11 @@ bool \mbox{\hyperlink{classdb_acff925896188a6a78e4f9fbe567f4d01}{is\+\_\+logined
 void \mbox{\hyperlink{classdb_a0421e23600a1802f95527e1c233a671e}{register\+\_\+passwd}} (String passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録している \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_a359f57f1d20aadc602b3bd1e773a7859}{login}} (String passwd)
-\begin{DoxyCompactList}\small\item\em PWマネージャーにログインする \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em PWマネージャーにログインする \end{DoxyCompactList}\item 
+Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ \mbox{\hyperlink{classdb_a26fd9bac41fb7235130235951f2e22ae}{read\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em データを読み込む \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}{write\+\_\+data}} (Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ data)
+\begin{DoxyCompactList}\small\item\em データを書き込む \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -106,6 +110,26 @@ false パスワードが間違っていてログインに失敗した場合
 {\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & パスワードが未登録の場合、複数のキーが登録されていた場合 \\
 \hline
 \end{DoxyExceptions}
+\mbox{\Hypertarget{classdb_a26fd9bac41fb7235130235951f2e22ae}\label{classdb_a26fd9bac41fb7235130235951f2e22ae}} 
+\index{db@{db}!read\_data@{read\_data}}
+\index{read\_data@{read\_data}!db@{db}}
+\doxysubsubsection{\texorpdfstring{read\_data()}{read\_data()}}
+{\footnotesize\ttfamily Array$<$\mbox{\hyperlink{classsingle__data}{single\+\_\+data}}$>$ db\+::read\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+データを読み込む 
+
+バイナリファイルから読み出され、復号化された状態で出てくる
+
+\begin{DoxyReturn}{Returns}
+Array$<$single\+\_\+data$>$ 読み込んだデータ(データがまだ作られていない場合長さ0の\+Array) 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & まだログインしていない場合 \\
+\hline
+\end{DoxyExceptions}
 \mbox{\Hypertarget{classdb_a0421e23600a1802f95527e1c233a671e}\label{classdb_a0421e23600a1802f95527e1c233a671e}} 
 \index{db@{db}!register\_passwd@{register\_passwd}}
 \index{register\_passwd@{register\_passwd}!db@{db}}
@@ -124,6 +148,28 @@ PWマネージャーのパスワードを登録している
 
 \begin{DoxyExceptions}{Exceptions}
 {\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & パスワードが既に登録されている場合、複数のキーが登録されていた場合 \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}\label{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}} 
+\index{db@{db}!write\_data@{write\_data}}
+\index{write\_data@{write\_data}!db@{db}}
+\doxysubsubsection{\texorpdfstring{write\_data()}{write\_data()}}
+{\footnotesize\ttfamily void db\+::write\+\_\+data (\begin{DoxyParamCaption}\item[{Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+データを書き込む 
+
+自動で暗号化してバイナリファイルに書き出す
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & 書き込むデータ \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & まだログインしていない場合 \\
 \hline
 \end{DoxyExceptions}
 

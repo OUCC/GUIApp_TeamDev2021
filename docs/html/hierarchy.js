@@ -8,5 +8,5 @@ var hierarchy =
       [ "Login", "class_login.html", null ],
       [ "MainScene", "class_main_scene.html", null ]
     ] ],
-    [ "single_data", "structsingle__data.html", null ]
+    [ "single_data", "classsingle__data.html", null ]
 ];

@@ -99,4 +99,49 @@ public:
         key = passwd;
         return true;
     }
+
+/**
+ * @brief データを読み込む
+ * @details バイナリファイルから読み出され、復号化された状態で出てくる
+ * 
+ * @return Array<single_data> 読み込んだデータ(データがまだ作られていない場合長さ0のArray)
+ * @exception db_exception まだログインしていない場合
+ */
+    Array<single_data> read_data() {
+        if (!is_logined()) {
+            throw db_exception("not logined");
+        }
+        if (!FileSystem::IsFile(main_db_name)) return Array<single_data>();
+        Deserializer<BinaryReader> reader(main_db_name);
+        if (!reader.getReader()) {
+            throw Error(U"Failed to open `{}`"_fmt(main_db_name));
+        }
+        Array<single_data> data;
+        reader(data);
+        for (int i = 0; i < data.size(); i++) {
+            data[i].decrypt(key);
+        }
+        return data;
+    }
+
+/**
+ * @brief データを書き込む
+ * @details 自動で暗号化してバイナリファイルに書き出す
+ * 
+ * @param data 書き込むデータ
+ * @exception db_exception まだログインしていない場合
+ */
+    void write_data(Array<single_data> data) {
+        if (!is_logined()) {
+            throw db_exception("not logined");
+        }
+        Serializer<BinaryWriter> writer(main_db_name);
+        if (!writer.getWriter()) {
+            throw Error(U"Failed to open `{}`"_fmt(main_db_name));
+        }
+        for (int i = 0; i < data.size(); i++) {
+            data[i].encrypt(key);
+        }
+        writer(data);
+    }
 };

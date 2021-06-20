@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['single_5fdata_17',['single_data',['../structsingle__data.html',1,'']]]
+  ['single_5fdata_18',['single_data',['../classsingle__data.html',1,'']]]
 ];

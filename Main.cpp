@@ -57,8 +57,10 @@ void kowerkoint_dbg() {
     db database;
     //database.register_passwd(U"vim");
     Print << database.login(U"vim");
-    String cipher = aes256_encrypt(U"yes", U"no");
-    Print << aes256_decrypt(cipher, U"no");
+    Array<single_data> data = database.read_data();
+    for (int i = 0; i < data.size(); i++) {
+        Print << data[i].service_name << data[i].user_name << data[i].password;
+    }
 }
 
 void Main()

@@ -1,19 +1,19 @@
-#include <string>
+#include <Siv3d.hpp>
 
 /**
  * @brief 1つの項目のデータを定めた構造体
- * @details すべて復号済み/未暗号化の文字列として使用する
+ * @details パスワードは暗号の状態は16進数文字列、復号化された状態では通常の文字列である
  * 
  */
-struct single_data {
-/** データ管理に使用するID。UIに表示する必要はない。SQLのPRIMARY KEY AUTOINCREMENTにて自動で割り振っているため重複しないはず */
-    int id; 
+class single_data {
+
+public:
 /** サービス名 */
-    std::string service_name;
+    String service_name;
 /** ユーザー名 */
-    std::string user_name;
+    String user_name;
 /** パスワード */
-    std::string password;
+    String password;
 
 /**
  * @brief コンストラクタ
@@ -24,13 +24,30 @@ struct single_data {
  * @param password パスワード
  */
     single_data(
-        int id,
-        std::string service_name,
-        std::string user_name,
-        std::string password):
-        id(id),
+        String service_name,
+        String user_name,
+        String password):
         service_name(service_name),
         user_name(user_name),
         password(password)
     {}
+
+/**
+ * @brief デフォルトコンストラクタ
+ * 
+ */
+    single_data() {}
+
+    template <class Archive>
+    void SIV3D_SERIALIZE(Archive& archive) {
+        archive(service_name, user_name, password);
+    }
+
+    void encrypt(String key) {
+        password = aes256_encrypt(password, key);
+    }
+
+    void decrypt(String key) {
+        password = aes256_decrypt(password, key);
+    }
 };

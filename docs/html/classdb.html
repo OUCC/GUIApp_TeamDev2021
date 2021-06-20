@@ -111,6 +111,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a359f57f1d20aadc602b3bd1e773a7859"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">login</a> (String passwd)</td></tr>
 <tr class="memdesc:a359f57f1d20aadc602b3bd1e773a7859"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWマネージャーにログインする  <a href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">More...</a><br /></td></tr>
 <tr class="separator:a359f57f1d20aadc602b3bd1e773a7859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26fd9bac41fb7235130235951f2e22ae"><td class="memItemLeft" align="right" valign="top">Array&lt; <a class="el" href="classsingle__data.html">single_data</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">read_data</a> ()</td></tr>
+<tr class="memdesc:a26fd9bac41fb7235130235951f2e22ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">データを読み込む  <a href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">More...</a><br /></td></tr>
+<tr class="separator:a26fd9bac41fb7235130235951f2e22ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e4e05de810d1edbc75cc9c0c15f2d91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">write_data</a> (Array&lt; <a class="el" href="classsingle__data.html">single_data</a> &gt; data)</td></tr>
+<tr class="memdesc:a2e4e05de810d1edbc75cc9c0c15f2d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">データを書き込む  <a href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">More...</a><br /></td></tr>
+<tr class="separator:a2e4e05de810d1edbc75cc9c0c15f2d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>DBの表面上のI/Oを担当するクラス </p>
@@ -269,6 +275,41 @@ false パスワードが間違っていてログインに失敗した場合 </dd
 
 </div>
 </div>
+<a id="a26fd9bac41fb7235130235951f2e22ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26fd9bac41fb7235130235951f2e22ae">&#9670;&nbsp;</a></span>read_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Array&lt;<a class="el" href="classsingle__data.html">single_data</a>&gt; db::read_data </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>データを読み込む </p>
+<p>バイナリファイルから読み出され、復号化された状態で出てくる</p>
+<dl class="section return"><dt>Returns</dt><dd>Array&lt;single_data&gt; 読み込んだデータ(データがまだ作られていない場合長さ0のArray) </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classdb__exception.html" title="想定されていない操作が行われたことを表す例外クラス">db_exception</a></td><td>まだログインしていない場合 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a0421e23600a1802f95527e1c233a671e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0421e23600a1802f95527e1c233a671e">&#9670;&nbsp;</a></span>register_passwd()</h2>
 
@@ -303,6 +344,47 @@ false パスワードが間違っていてログインに失敗した場合 </dd
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname"><a class="el" href="classdb__exception.html" title="想定されていない操作が行われたことを表す例外クラス">db_exception</a></td><td>パスワードが既に登録されている場合、複数のキーが登録されていた場合 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2e4e05de810d1edbc75cc9c0c15f2d91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e4e05de810d1edbc75cc9c0c15f2d91">&#9670;&nbsp;</a></span>write_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void db::write_data </td>
+          <td>(</td>
+          <td class="paramtype">Array&lt; <a class="el" href="classsingle__data.html">single_data</a> &gt;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>データを書き込む </p>
+<p>自動で暗号化してバイナリファイルに書き出す</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>書き込むデータ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classdb__exception.html" title="想定されていない操作が行われたことを表す例外クラス">db_exception</a></td><td>まだログインしていない場合 </td></tr>
   </table>
   </dd>
 </dl>

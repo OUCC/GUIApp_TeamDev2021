@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['password_8',['password',['../structsingle__data.html#a4140213e0d2b37039ee142f08d8a352b',1,'single_data']]]
+  ['password_7',['password',['../classsingle__data.html#ae7f660a5b41af55fd9c82c0860006f69',1,'single_data']]]
 ];

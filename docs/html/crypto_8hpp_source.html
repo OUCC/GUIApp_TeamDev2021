@@ -89,26 +89,114 @@ $(document).ready(function(){initNavTree('crypto_8hpp_source.html',''); initResi
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iomanip&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;openssl/sha.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;Siv3D.hpp&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;String binary_to_hexstring(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* binary, <span class="keywordtype">int</span> size) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    stringstream ss;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ss &lt;&lt; hex &lt;&lt; setfill(<span class="charliteral">&#39;0&#39;</span>);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; size; i++) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        ss &lt;&lt; setw(2) &lt;&lt; (int)binary[i];</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> Unicode::FromUTF8(ss.str());</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;String sha256(String text) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> digest[SHA256_DIGEST_LENGTH];</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* cc = text.toUTF8().c_str();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* cuc = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(cc);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    SHA256(cuc, <span class="keyword">sizeof</span>(cuc) - 1, digest);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">return</span> binary_to_hexstring(digest, SHA256_DIGEST_LENGTH);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;openssl/aes.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Siv3D.hpp&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;String binary_to_hexstring(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* binary, <span class="keywordtype">int</span> size) {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    stringstream ss;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    ss &lt;&lt; hex &lt;&lt; setfill(<span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; size; i++) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        ss &lt;&lt; setw(2) &lt;&lt; (int)binary[i];</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">return</span> Unicode::WidenAscii(ss.str());</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;String binary_to_hexstring(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* binary, <span class="keywordtype">int</span> size) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    stringstream ss;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ss &lt;&lt; hex &lt;&lt; setfill(<span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; size; i++) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        ss &lt;&lt; setw(2) &lt;&lt; (int)binary[i];</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> Unicode::WidenAscii(ss.str());</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;String sha256(String text) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> digest[SHA256_DIGEST_LENGTH];</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">string</span> str = Unicode::NarrowAscii(text);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* cc = str.c_str();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* cuc = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(cc);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    SHA256(cuc, <span class="keyword">sizeof</span>(cuc) - 1, digest);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> binary_to_hexstring(digest, SHA256_DIGEST_LENGTH);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;String aes256_encrypt(String text, String key) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">string</span> text_string = Unicode::NarrowAscii(text);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* text_cc = text_string.c_str();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* text_cuc = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(text_cc);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">string</span> key_string = Unicode::NarrowAscii(key);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* key_cc = key_string.c_str();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* key_cuc = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(key_cc);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> enc_out[256];</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    AES_KEY enc_key;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    AES_set_encrypt_key(key_cuc, 256, &amp;enc_key);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    AES_encrypt(text_cuc, enc_out, &amp;enc_key);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//Print &lt;&lt; U&quot;original:&quot; &lt;&lt; binary_to_hexstring(text_cuc, 256);</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">//Print &lt;&lt; U&quot;crypted:&quot; &lt;&lt; binary_to_hexstring(enc_out, 256);</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> binary_to_hexstring(enc_out, 256);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;String aes256_decrypt(String hex_text, String key) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> binary_text[256];</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">string</span> hex_text_string = Unicode::NarrowAscii(hex_text); <span class="comment">//一度置かないとダングリングする     const char* cstr_text = hex_text_string.c_str();
+    int size = hex_text_string.length() / 2;
+    for (int i = 0; i &lt; size; i++) {
+        binary_text[i] = (unsigned char)stol(hex_text_string.substr(i * 2, 2), nullptr, 16);
+    }
+
+    string key_string = Unicode::NarrowAscii(key); //一度置かないとダングリングする
+    const char* key_cc = key_string.c_str();
+    const unsigned char* key_cuc = reinterpret_cast&lt;const unsigned char*&gt;(key_cc);
+
+    unsigned char dec_out[256];
+
+    AES_KEY dec_key;
+    AES_set_decrypt_key(key_cuc, 256, &amp;dec_key);
+    AES_decrypt(binary_text, dec_out, &amp;dec_key);
+
+    //Print &lt;&lt; U&quot;original:&quot; &lt;&lt; binary_to_hexstring(binary_text, 256);
+    //Print &lt;&lt; U&quot;decrypted:&quot; &lt;&lt; binary_to_hexstring(dec_out, 256);
+    return Unicode::WidenAscii(std::string(reinterpret_cast&lt;const char*&gt;(dec_out)));
+}</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* cstr_text = hex_text_string.c_str();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">int</span> size = hex_text_string.length() / 2;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; size; i++) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        binary_text[i] = (<span class="keywordtype">unsigned</span> char)stol(hex_text_string.substr(i * 2, 2), <span class="keyword">nullptr</span>, 16);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">string</span> key_string = Unicode::NarrowAscii(key); <span class="comment">//一度置かないとダングリングする     const char* key_cc = key_string.c_str();
+    const unsigned char* key_cuc = reinterpret_cast&lt;const unsigned char*&gt;(key_cc);
+
+    unsigned char dec_out[256];
+
+    AES_KEY dec_key;
+    AES_set_decrypt_key(key_cuc, 256, &amp;dec_key);
+    AES_decrypt(binary_text, dec_out, &amp;dec_key);
+
+    //Print &lt;&lt; U&quot;original:&quot; &lt;&lt; binary_to_hexstring(binary_text, 256);
+    //Print &lt;&lt; U&quot;decrypted:&quot; &lt;&lt; binary_to_hexstring(dec_out, 256);
+    return Unicode::WidenAscii(std::string(reinterpret_cast&lt;const char*&gt;(dec_out)));
+}</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span>* key_cc = key_string.c_str();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* key_cuc = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(key_cc);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> dec_out[256];</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    AES_KEY dec_key;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    AES_set_decrypt_key(key_cuc, 256, &amp;dec_key);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    AES_decrypt(binary_text, dec_out, &amp;dec_key);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">//Print &lt;&lt; U&quot;original:&quot; &lt;&lt; binary_to_hexstring(binary_text, 256);</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment">//Print &lt;&lt; U&quot;decrypted:&quot; &lt;&lt; binary_to_hexstring(dec_out, 256);</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">return</span> Unicode::WidenAscii(std::string(<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(dec_out)));</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
