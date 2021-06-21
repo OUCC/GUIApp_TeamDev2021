@@ -168,7 +168,7 @@ public:
             }
             else {
                 //再確認
-                Rect(400, 180, 270, 240).drawFrame(5, Design::frame);
+                RectF(ratioPos(0.5,0.3),ratioPos(0.33,0.4)).drawFrame(5, Design::frame);
                 FontAsset(U"Regular")(U"この内容で\n確定しますか？").draw(ratioPos(0.57,0.38), Design::fontColor);
                 if (SimpleGUI::Button(U"はい", ratioPos(0.54, 0.58),80)) {
                     //■パスワードの追加・変更処理
@@ -262,8 +262,8 @@ public:
         Scene::SetBackground(Design::background);
         System::SetTerminationTriggers(UserAction::CloseButtonClicked);
         Window::SetTitle(U"Password Manager");
-        //Window::SetStyle(WindowStyle::Sizable);
-        //Scene::SetScaleMode(ScaleMode::ResizeFill);
+        Window::SetStyle(WindowStyle::Sizable);
+        Scene::SetScaleMode(ScaleMode::ResizeFill);
 
         //通常表示用フォントアセット
         FontAsset::Register(U"Regular", 20);
