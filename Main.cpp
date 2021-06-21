@@ -122,3 +122,40 @@ void Main()
     }
    
 };
+//最初にloginする時passwordを作る画面
+void Main()
+{
+    constexpr ColorF buttonColor1(245,245,245,1);
+    constexpr Circle button1(760, 560, 19);
+    Transition press(0.05s, 0.05s);
+    Scene::SetBackground(Color(192,192,192));
+    const Font font1(25, Typeface::Heavy);
+
+    const String text = U"Please create your password";
+
+
+    TextEditState tes1;
+    while (System::Update())
+    {
+        // 文字カウントを 0.1 秒ごとに増やす
+        const size_t length = static_cast<size_t>(Scene::Time() / 0.1);
+
+        // text の文字数以上の length は切り捨てられる
+        font1(text.substr(0, length)).drawAt(Scene::Center(), Color(41,26,33));
+        SimpleGUI::TextBox(tes1, Vec2(280, 340), 250,18);
+        const bool mouseOver = button1.mouseOver();
+        if (mouseOver)
+        {
+        // マウスカーソルを手の形に
+        Cursor::RequestStyle(CursorStyle::Hand);
+        }
+        press.update(button1.leftPressed());
+
+        const double t = press.value();
+
+        button1.movedBy(Vec2(0, 0).lerp(Vec2(0, 4), t))
+        .drawShadow(Vec2(0, 6).lerp(Vec2(0, 1), t), 12 - t * 7, 5 - t * 4)
+        .draw(buttonColor1);
+    }
+}
+
