@@ -58,14 +58,14 @@ String aes256_encrypt(String text, String key) {
 
 String aes256_decrypt(String hex_text, String key) {
     unsigned char binary_text[256];
-    string hex_text_string = Unicode::NarrowAscii(hex_text); //��x�u���Ȃ��ƃ_���O�����O����
+    string hex_text_string = Unicode::NarrowAscii(hex_text); //一度置かないとダングリングする
     const char* cstr_text = hex_text_string.c_str();
     int size = hex_text_string.length() / 2;
     for (int i = 0; i < size; i++) {
         binary_text[i] = (unsigned char)stol(hex_text_string.substr(i * 2, 2), nullptr, 16);
     }
 
-    string key_string = Unicode::NarrowAscii(key); //��x�u���Ȃ��ƃ_���O�����O����
+    string key_string = Unicode::NarrowAscii(key); //一度置かないとダングリングする
     const char* key_cc = key_string.c_str();
     const unsigned char* key_cuc = reinterpret_cast<const unsigned char*>(key_cc);
 
