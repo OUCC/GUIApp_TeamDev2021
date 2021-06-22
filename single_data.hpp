@@ -1,4 +1,4 @@
-#include <Siv3d.hpp>
+﻿#include <Siv3d.hpp>
 
 /**
  * @brief 1つの項目のデータを定めた構造体

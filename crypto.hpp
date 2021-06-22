@@ -1,4 +1,4 @@
-#include <string>
+ï»¿#include <string>
 #include <sstream>
 #include <iomanip>
 #include <openssl/sha.h>
@@ -58,14 +58,14 @@ String aes256_encrypt(String text, String key) {
 
 String aes256_decrypt(String hex_text, String key) {
     unsigned char binary_text[256];
-    string hex_text_string = Unicode::NarrowAscii(hex_text); //ˆê“x’u‚©‚È‚¢‚Æƒ_ƒ“ƒOƒŠƒ“ƒO‚·‚é
+    string hex_text_string = Unicode::NarrowAscii(hex_text); //ï¿½ï¿½xï¿½uï¿½ï¿½ï¿½È‚ï¿½ï¿½Æƒ_ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
     const char* cstr_text = hex_text_string.c_str();
     int size = hex_text_string.length() / 2;
     for (int i = 0; i < size; i++) {
         binary_text[i] = (unsigned char)stol(hex_text_string.substr(i * 2, 2), nullptr, 16);
     }
 
-    string key_string = Unicode::NarrowAscii(key); //ˆê“x’u‚©‚È‚¢‚Æƒ_ƒ“ƒOƒŠƒ“ƒO‚·‚é
+    string key_string = Unicode::NarrowAscii(key); //ï¿½ï¿½xï¿½uï¿½ï¿½ï¿½È‚ï¿½ï¿½Æƒ_ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
     const char* key_cc = key_string.c_str();
     const unsigned char* key_cuc = reinterpret_cast<const unsigned char*>(key_cc);
 

@@ -332,9 +332,13 @@ public:
 void kowerkoint_dbg() {
     db database;
     //database.register_passwd(U"vim");
-    //Print << database.login(U"vim");
-    Print << database.login(U"emacs");
+    Print << database.login(U"vim");
+    //Print << database.login(U"emacs");
     Array<single_data> data = database.read_data();
+    //data << single_data(U"サービス名", U"ユーザー名", U"passwd");
+    data << single_data(U"サービス名2", U"ユーザー名2", U"passwd2");
+    database.write_data(data);
+    data = database.read_data();
     for (int i = 0; i < data.size(); i++) {
         Print << data[i].service_name << data[i].user_name << data[i].password;
     }
@@ -362,7 +366,7 @@ void Main()
     manager.setFadeColor(Palette::Black);
 
 
-    kowerkoint_dbg();
+    //kowerkoint_dbg();
     while(System::Update())
     {
         // 現在のシーンを実行
