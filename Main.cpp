@@ -158,4 +158,3 @@ void Main()
         .draw(buttonColor1);
     }
 }
-
