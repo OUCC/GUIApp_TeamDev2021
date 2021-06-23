@@ -1,0 +1,92 @@
+\hypertarget{classsingle__data}{}\doxysection{single\+\_\+data Class Reference}
+\label{classsingle__data}\index{single\_data@{single\_data}}
+
+
+1つの項目のデータを定めた構造体  
+
+
+
+
+{\ttfamily \#include $<$single\+\_\+data.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classsingle__data_ab7a16cffccede11793123b709ba5e255}{single\+\_\+data}} (String \mbox{\hyperlink{classsingle__data_ae2dd2d01e1a39921886951ab928d5425}{service\+\_\+name}}, String \mbox{\hyperlink{classsingle__data_a1398aa28d1db942cbc8fd131436b5096}{user\+\_\+name}}, String \mbox{\hyperlink{classsingle__data_ae7f660a5b41af55fd9c82c0860006f69}{password}})
+\begin{DoxyCompactList}\small\item\em コンストラクタ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsingle__data_af6c51f4a0623ae2125553a84f2dc0c7c}\label{classsingle__data_af6c51f4a0623ae2125553a84f2dc0c7c}} 
+\mbox{\hyperlink{classsingle__data_af6c51f4a0623ae2125553a84f2dc0c7c}{single\+\_\+data}} ()
+\begin{DoxyCompactList}\small\item\em デフォルトコンストラクタ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsingle__data_ad1fa4b838667b90e6b16cc7813c8d74e}\label{classsingle__data_ad1fa4b838667b90e6b16cc7813c8d74e}} 
+{\footnotesize template$<$class Archive $>$ }\\void {\bfseries SIV3\+D\+\_\+\+SERIALIZE} (Archive \&archive)
+\item 
+\mbox{\Hypertarget{classsingle__data_a76617013b8a571b86ea920ece9f28aa9}\label{classsingle__data_a76617013b8a571b86ea920ece9f28aa9}} 
+void {\bfseries encrypt} (String key)
+\item 
+\mbox{\Hypertarget{classsingle__data_af6e4b58a99df25f474a189e6f0f391d2}\label{classsingle__data_af6e4b58a99df25f474a189e6f0f391d2}} 
+void {\bfseries decrypt} (String key)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{classsingle__data_ae2dd2d01e1a39921886951ab928d5425}{service\+\_\+name}}
+\item 
+String \mbox{\hyperlink{classsingle__data_a1398aa28d1db942cbc8fd131436b5096}{user\+\_\+name}}
+\item 
+String \mbox{\hyperlink{classsingle__data_ae7f660a5b41af55fd9c82c0860006f69}{password}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+1つの項目のデータを定めた構造体 
+
+パスワードは暗号の状態は16進数文字列、復号化された状態では通常の文字列である 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classsingle__data_ab7a16cffccede11793123b709ba5e255}\label{classsingle__data_ab7a16cffccede11793123b709ba5e255}} 
+\index{single\_data@{single\_data}!single\_data@{single\_data}}
+\index{single\_data@{single\_data}!single\_data@{single\_data}}
+\doxysubsubsection{\texorpdfstring{single\_data()}{single\_data()}}
+{\footnotesize\ttfamily single\+\_\+data\+::single\+\_\+data (\begin{DoxyParamCaption}\item[{String}]{service\+\_\+name,  }\item[{String}]{user\+\_\+name,  }\item[{String}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+コンストラクタ 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & ID \\
+\hline
+{\em service\+\_\+name} & サービス名 \\
+\hline
+{\em user\+\_\+name} & ユーザー名 \\
+\hline
+{\em password} & パスワード \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classsingle__data_ae7f660a5b41af55fd9c82c0860006f69}\label{classsingle__data_ae7f660a5b41af55fd9c82c0860006f69}} 
+\index{single\_data@{single\_data}!password@{password}}
+\index{password@{password}!single\_data@{single\_data}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily String single\+\_\+data\+::password}
+
+パスワード \mbox{\Hypertarget{classsingle__data_ae2dd2d01e1a39921886951ab928d5425}\label{classsingle__data_ae2dd2d01e1a39921886951ab928d5425}} 
+\index{single\_data@{single\_data}!service\_name@{service\_name}}
+\index{service\_name@{service\_name}!single\_data@{single\_data}}
+\doxysubsubsection{\texorpdfstring{service\_name}{service\_name}}
+{\footnotesize\ttfamily String single\+\_\+data\+::service\+\_\+name}
+
+サービス名 \mbox{\Hypertarget{classsingle__data_a1398aa28d1db942cbc8fd131436b5096}\label{classsingle__data_a1398aa28d1db942cbc8fd131436b5096}} 
+\index{single\_data@{single\_data}!user\_name@{user\_name}}
+\index{user\_name@{user\_name}!single\_data@{single\_data}}
+\doxysubsubsection{\texorpdfstring{user\_name}{user\_name}}
+{\footnotesize\ttfamily String single\+\_\+data\+::user\+\_\+name}
+
+ユーザー名 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+single\+\_\+data.\+hpp\end{DoxyCompactItemize}
