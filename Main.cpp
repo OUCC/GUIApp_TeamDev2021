@@ -341,7 +341,7 @@ void kowerkoint_dbg() {
     for(int i = 0; i < data.size(); i++) {
         Print << data[i].password;
     }
-    //data << single_data(U"サービス2", U"あいうえお", U"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde");
+    data << single_data(U"サービス2", U"あいうえお", U"applebananachocolatecookie!^as~\"\\e!&");
     //data << single_data(U"サービス", U"ユーザー", U"123456789");
     database.write_data(data);
 }
