@@ -387,24 +387,19 @@ public:
 
 void kowerkoint_dbg() {
     db database;
-    //database.register_passwd(U"vim");
+    //database.register_passwd(U"abc");
+    Print << database.login(U"abc");
+    /*
     Print << database.login(U"vim");
     //Print << database.login(U"emacs");
-    Array<single_data> data = database.read_data();
-    //data << single_data(U"サービス名", U"ユーザー名", U"passwd");
-    data << single_data(U"サービス名2", U"ユーザー名2", U"passwd2");
-    database.write_data(data);
-    data = database.read_data();
-    for (int i = 0; i < data.size(); i++) {
-        Print << data[i].service_name << data[i].user_name << data[i].password;
-    }
-    /*
-    database.change_passwd(U"vim", U"emacs");
-    data = database.read_data();
-    for (int i = 0; i < data.size(); i++) {
-        Print << data[i].service_name << data[i].user_name << data[i].password;
-    }
     */
+    Array<single_data> data = database.read_data();
+    for(int i = 0; i < data.size(); i++) {
+        Print << data[i].password;
+    }
+    data << single_data(U"サービス2", U"あいうえお", U"applebananachocolatecookie!^as~\"\\e!&");
+    //data << single_data(U"サービス", U"ユーザー", U"123456789");
+    database.write_data(data);
 }
 
 void Main()
