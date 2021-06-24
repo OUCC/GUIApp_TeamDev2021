@@ -69,7 +69,7 @@ public:
     }
 
     void draw() const override { // 描画関数 (const 修飾)
-        Scene::SetBackground(ColorF(0.3, 0.4, 0.5));
+
     }
 };
 
