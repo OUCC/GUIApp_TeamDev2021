@@ -61,7 +61,8 @@ public:
     }
 
 /**
- * @brief PWマネージャーのパスワードを登録している
+ * @brief PWマネージャーのパスワードを登録する
+ * @detail ログイン処理も行われる
  * 
  * @param passwd 登録するパスワード
  * @exception db_exception パスワードが既に登録されている場合、複数のキーが登録されていた場合

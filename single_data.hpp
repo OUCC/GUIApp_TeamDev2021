@@ -44,10 +44,18 @@ public:
     }
 
     void encrypt(String key) {
-        password = aes256_encrypt(password, key);
+        String tmp = U"";
+        for (int i = 0; i < (password.length() + 15) / 16; i++) {
+            tmp += aes256_encrypt(password.substr(i * 16, 16), key);
+        }
+        password = tmp;
     }
 
     void decrypt(String key) {
-        password = aes256_decrypt(password, key);
+        String tmp = U"";
+        for (int i = 0; i < password.length() / 512; i++) {
+            tmp += aes256_decrypt(password.substr(i * 512, 512), key).substr(0, 16);
+        }
+        password = tmp;
     }
 };
