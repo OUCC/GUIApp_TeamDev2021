@@ -236,7 +236,12 @@ public:
             if (MouseL.down()) isVisiblePass ^= true;
         }
 
-        if (SimpleGUI::Button(U"追加", Vec2(screenSize.x - 130, 5))) popupState = forAdd;
+        if (SimpleGUI::Button(U"追加", Vec2(screenSize.x - 130, 5))) {
+            popupState = forAdd;
+            serviceNameText.text = U"";
+            userNameText.text = U"";
+            passwordText.text = U"";
+        }
 
         for (int i = 0; i < scroll.max; i++) {
             if (scroll.current + i >= passArray.size()) break;
@@ -262,6 +267,9 @@ public:
                 if (MouseL.down()) {
                     popupIndex = scroll.current + i;
                     popupState = forEdit;
+                    serviceNameText.text = passArray[popupIndex].service_name;
+                    userNameText.text = passArray[popupIndex].user_name;
+                    passwordText.text = passArray[popupIndex].password;
                 }
             }
             if (TextureAsset(U"delete").resized(30).draw(screenSize.x - 75, height).mouseOver() && popupState == notPopup) {
@@ -283,11 +291,6 @@ public:
             case confirming:
                 RectF(ratioPos(0.15,0.25), ratioPos(0.7,0.5)).draw(Design::background);
 
-                if(popupState == forEdit){
-                    serviceNameText.text = passArray[popupIndex].service_name;
-                    userNameText.text = passArray[popupIndex].user_name;
-                    passwordText.text = passArray[popupIndex].password;
-                }
                 FontAsset(U"Regular")(U"サービス名").draw(ratioPos(0.2,0.3), Design::fontColor);
                 SimpleGUI::TextBox(serviceNameText, ratioPos(0.2,0.35), screenSize.x / 4, unspecified, popupState != confirming);
                 FontAsset(U"Regular")(U"ユーザー名").draw(ratioPos(0.2, 0.42), Design::fontColor);
@@ -305,8 +308,8 @@ public:
                 
                 if (popupState != confirming || !valid || !cnt) {
                     FontAsset(U"Regular")(popupState == forAdd ? U"パスワードの追加" : U"パスワードの変更").draw(ratioPos(0.5,0.3), Design::fontColor);
-                    if(!valid || !cnt) FontAsset(U"Regular")(U"0文字以上の ASCII 文字のみ\n対応です。").draw(ratioPos(0.5, 0.4), Design::fontColor);
-                    if (SimpleGUI::Button(U"決定", ratioPos(0.5,0.5))) {
+                    if (!valid || !cnt) FontAsset(U"Regular")(U"0文字以上の ASCII 文字のみ\n対応です。").draw(ratioPos(0.5, 0.4), Design::fontColor);
+                    else if (SimpleGUI::Button(U"決定", ratioPos(0.5,0.5))) {
                         lastPopupState = popupState;
                         popupState = confirming;
                     }
