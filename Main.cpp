@@ -493,7 +493,7 @@ public:
                     // 再確認
                     RectF(ratioPosFromCenter(0.0,0.4),ratioPos(0.33,max(0.4, 240/screenSize.y))).drawFrame(5, Design::frame);
                     FontAsset(U"Regular")(U"この内容で確定しますか？").draw(repopCheckTextCullBox, Design::fontColor);
-                    if (SimpleGUI::Button(U"はい", ratioPos(0.54, 0.58),80)) {
+                    if (SimpleGUI::ButtonAt(U"はい", ratioPosFromCenter(0.18 + (screenSize.x >= 500 ? 0.0 : 0.16), -0.22),80)) {
                         single_data temp(serviceNameText.text, userNameText.text, passwordText.text);
                         // パスワードの追加・変更処理
                         // Array passArray のインデックスは popupIndex
@@ -508,7 +508,7 @@ public:
                         popupState = notPopup;
                         noticeTimer = 0.0;
                     }
-                    if (SimpleGUI::Button(U"いいえ", ratioPosFromCenter(0.4,-0.16),80)) popupState = lastPopupState;
+                    if (SimpleGUI::ButtonAt(U"いいえ", ratioPosFromCenter(0.5 - (screenSize.x >= 500 ? 0.0 : 0.16),-0.22 - (screenSize.x >= 500 ? 0.0 : 0.13)),80)) popupState = lastPopupState;
                 }
                 break;
 
