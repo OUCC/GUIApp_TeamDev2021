@@ -378,7 +378,7 @@ public:
         RectF popupAddChangePasswordHeadCullBox(ratioPosFromCenter(0.0, max(0.4, 240/screenSize.y)), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         RectF popupAddChangePasswordTextCullBox(ratioPos(0.5, 0.4), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         //RectF popupCancelButtonCullBox(ratioPosFromCenter(0.0, min(-0.3, -180 / screenSize.y)), 100, 50);
-        RectF repopCheckTextCullBox(ratioPos(0.57, 0.38), ratioPos(0.25, max(0.4, 240 / screenSize.y)));
+        RectF repopCheckTextCullBox(ratioPos(0.57, 0.38), ratioPos(0.2, max(0.4, 240 / screenSize.y)));
 
         RectF visibleTexCullBox(screenSize.x - 130, 10, 500, 30);
 
@@ -401,14 +401,14 @@ public:
         visibleTexCullBox.draw(Design::background);
 
 
-        if (SimpleGUI::Button(U"追加", Vec2(screenSize.x - 130, 5))) {
+        if (SimpleGUI::Button(U"追加", Vec2(screenSize.x - 130, 5), 80, popupState == notPopup)) {
             popupState = forAdd;
             serviceNameText.text = U"";
             userNameText.text = U"";
             passwordText.text = U"";
         }
 
-        if (SimpleGUI::Button(U"マネージャパスワード変更", Vec2(5, screenSize.y - 50))) {
+        if (SimpleGUI::Button(U"マネージャパスワード変更", Vec2(5, screenSize.y - 50), 280, popupState == notPopup)) {
             popupState = forMngPsswrdChange;
         }
 
@@ -492,7 +492,7 @@ public:
                 else {
                     // 再確認
                     RectF(ratioPosFromCenter(0.0,0.4),ratioPos(0.33,max(0.4, 240/screenSize.y))).drawFrame(5, Design::frame);
-                    FontAsset(U"Regular")(U"この内容で\n確定しますか？").draw(repopCheckTextCullBox, Design::fontColor);
+                    FontAsset(U"Regular")(U"この内容で確定しますか？").draw(repopCheckTextCullBox, Design::fontColor);
                     if (SimpleGUI::Button(U"はい", ratioPos(0.54, 0.58),80)) {
                         single_data temp(serviceNameText.text, userNameText.text, passwordText.text);
                         // パスワードの追加・変更処理
@@ -508,7 +508,7 @@ public:
                         popupState = notPopup;
                         noticeTimer = 0.0;
                     }
-                    if (SimpleGUI::Button(U"いいえ", ratioPos(0.7,0.58),80)) popupState = lastPopupState;
+                    if (SimpleGUI::Button(U"いいえ", ratioPosFromCenter(0.4,-0.16),80)) popupState = lastPopupState;
                 }
                 break;
 
