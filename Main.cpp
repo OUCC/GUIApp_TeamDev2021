@@ -123,7 +123,7 @@ public:
                 initWarmText = U"";
                 retInitialize = false;
             }
-            if (SimpleGUI::ButtonAt(U"初期化する", ratioPosFromCenter(min(-0.36, 216/screenSize.x), min(-0.36, -180/screenSize.y)))) {
+            if (SimpleGUI::ButtonAt(U"初期化する", ratioPosFromCenter(min(-0.36, -216/screenSize.x), min(-0.36, -180/screenSize.y)))) {
                 isInitialize = true;
             }
             if (isInitialize == true){
