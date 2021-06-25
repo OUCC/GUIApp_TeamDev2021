@@ -167,6 +167,7 @@ private:
     Font* font1;
     String text = U"Please create your password";
     TextEditState tes1;
+    TextEditState tes2;
     Vec2 screenSize;
     Vec2 screenCenter;
 
@@ -189,6 +190,8 @@ public:
         Scene::SetBackground(Color(192, 192, 192));
         Window::SetStyle(WindowStyle::Sizable);
         Scene::SetScaleMode(ScaleMode::ResizeFill);
+        FontAsset::Register(U"Regular", 20);
+
     }
 
     ~CreatePassword(){ // Destructor
@@ -208,7 +211,13 @@ public:
 
         // text の文字数以上の length は切り捨てられる
         (*font1)(text.substr(0, length)).drawAt(Scene::Center(), Color(41, 26, 33));
-        SimpleGUI::TextBoxAt(tes1, ratioPosFromCenter(0.0, min(-0.2, -80/screenSize.y)), 250, 64);
+        SimpleGUI::TextBoxAt(tes1, ratioPosFromCenter(0.0, min(-0.2, -80 / screenSize.y)), 250, 64);
+        if (Database.is_registered()) {
+            FontAsset(U"Regular")(U"Old:").drawAt(ratioPosFromCenter(-365 / screenSize.x, min(-0.2, -80 / screenSize.y)), ColorF(1, 1, 1, 1));
+            SimpleGUI::TextBoxAt(tes2, ratioPosFromCenter(0.0, min(-0.4, -160 / screenSize.y)), 250, 64);
+            FontAsset(U"Regular")(U"New:").drawAt(ratioPosFromCenter(-365 / screenSize.x, min(-0.4, -160 / screenSize.y)), ColorF(1, 1, 1, 1));
+        }
+
 
         const bool mouseOver = (*button1).mouseOver();
         if(mouseOver) Cursor::RequestStyle(CursorStyle::Hand); // マウスカーソルを手の形に
@@ -228,9 +237,32 @@ public:
                     break;
                 }
             }
+            if (Database.is_registered()) {
+                cnt = 0;
+                valid = true;
+                for (char32_t var2 : tes2.text) {
+                    if (U'!' <= var2 && var2 <= U'~') cnt++;
+                    else {
+                        valid = false;
+                        break;
+                    }
+                }
+            }
             if(valid && cnt){
-                Database.register_passwd(tes1.text);
-                changeScene(U"MainScene", 1.0s); // メインシーンに 1 秒かけて遷移
+                if (Database.is_registered()) {
+                    if (Database.change_passwd(tes1.text, tes2.text)) {
+                        changeScene(U"MainScene", 1.0s); // メインシーンに 1 秒かけて遷移
+
+                    }
+                    else {
+                        text = U"Fail to Change Password";
+                    }
+                }
+                else {
+                    Database.register_passwd(tes1.text);
+                    changeScene(U"MainScene", 1.0s); // メインシーンに 1 秒かけて遷移
+                }
+                //changeScene(U"MainScene", 1.0s); // メインシーンに 1 秒かけて遷移
             }
             else text = U"Invalid Password.";
         }
@@ -255,6 +287,7 @@ private:
         forEdit,
         confirming,
         forDelete,
+        forMngPsswrdChange,
     };
     PopupState popupState = notPopup;
     PopupState lastPopupState;
@@ -373,6 +406,10 @@ public:
             passwordText.text = U"";
         }
 
+        if (SimpleGUI::Button(U"マネージャパスワード変更", Vec2(5, screenSize.y - 50))) {
+            popupState = forMngPsswrdChange;
+        }
+
         for (int i = 0; i < scroll.max; i++) {
             if (scroll.current + i >= passArray.size()) break;
             int height = 50 + 50*i;
@@ -474,22 +511,30 @@ public:
                 break;
 
             case forDelete:
+            case forMngPsswrdChange:
                 RectF(Arg::center(screenSize/2), 300, 200).draw(Design::deletePopupBG);
-                FontAsset(U"Regular")(U"本当に削除しますか？").draw(Arg::center(screenSize.x*0.5 , screenSize.y*0.45), Design::deletePopupString);
+                FontAsset(U"Regular")(popupState == forDelete ? U"本当に削除しますか？" : U"マネージャパスワードを\n変更しますか？").draw(Arg::center(screenSize.x*0.5 , screenSize.y*0.45), Design::deletePopupString);
 
                 if (SimpleGUI::Button(U"はい", ratioPos(0.5, 0.55) - Vec2(100,0), 80)) {
-                    // パスワードの削除処理
-                    // Array passArrayのインデックスは popupIndex
-                    for(int j=popupIndex; j<passArray.size()-1; j++){
-                        passArray[j] = passArray[j+1];
+                    if (popupState == forMngPsswrdChange) {
+                        popupState = notPopup;
+                        changeScene(U"CreatePassword");
                     }
-                    passArray.pop_back();
-                    Database.write_data(passArray);
-                    popupState = notPopup;
+                    else {
+                        // パスワードの削除処理
+                        // Array passArrayのインデックスは popupIndex
+                        for (int j = popupIndex; j < passArray.size() - 1; j++) {
+                            passArray[j] = passArray[j + 1];
+                        }
+                        passArray.pop_back();
+                        Database.write_data(passArray);
+                        popupState = notPopup;
 
-                    // 削除できたら以下をする
-                    noticeType = notice_delete;
-                    noticeTimer = 0.0;
+                        // 削除できたら以下をする
+                        noticeType = notice_delete;
+                        noticeTimer = 0.0;
+                    }
+
                 }
                 if (SimpleGUI::Button(U"いいえ", ratioPos(0.5,0.55) + Vec2(20,00), 80)) popupState = notPopup;
                 break;
