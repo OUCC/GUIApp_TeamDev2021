@@ -18,12 +18,23 @@ private:
     bool retInitialize;
     bool isInitialize;
     Vec2 screenSize;
+    Vec2 screenCenter;
     String initWarmText = U"";
     String key_db_name;
     String main_db_name;
 
 
     Vec2 ratioPos(double x, double y) {
+        return Vec2(screenSize.x * x, screenSize.y * y);
+    }
+
+    Vec2 ratioPosFromCenter(double x, double y) {
+        // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
+        y *= -1;
+        x *= 0.5;
+        y *= 0.5;
+        x += 0.5;
+        y += 0.5;
         return Vec2(screenSize.x * x, screenSize.y * y);
     }
 
@@ -42,6 +53,8 @@ public:
 
 
         Scene::SetBackground(Color(106.0, 90.0, 205.0, 1.0));
+        Window::SetStyle(WindowStyle::Sizable);
+        Scene::SetScaleMode(ScaleMode::ResizeFill);
         tes.text = U"Password";
     }
 
@@ -57,6 +70,11 @@ public:
         if(!Database.is_registered()) changeScene(U"CreatePassword"); // パスワード作成シーンに遷移
 
         screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
+        screenCenter = Window::ClientCenter();
+
+        button->center = ratioPosFromCenter(max(0.75, 375/screenSize.x), -0.3333333);
+        *center = ratioPosFromCenter(0, 0.76667);
+
         const bool mouseOver = button->mouseOver();
         if(mouseOver) Cursor::RequestStyle(CursorStyle::Hand); // 円の上にマウスカーソルがあれば
         press->update(button->leftPressed());
@@ -68,8 +86,8 @@ public:
         // center から (4, 4) ずらした位置を中心にテキストを描く
         (*font)(text).drawAt(center->movedBy(4, 4), ColorF(106, 90, 205, 0.5));
         (*font)(text).drawAt(*center);
-        SimpleGUI::TextBox(tes, Vec2(200, 420), 250, 64, !retInitialize);
-        if(SimpleGUI::Button(U"Clear", Vec2(470, 420), 100, !retInitialize)) tes.clear();
+        SimpleGUI::TextBoxAt(tes, ratioPosFromCenter(min(-0.188, 137.824/screenSize.x), -0.46), 250, 64, !retInitialize);
+        if(SimpleGUI::ButtonAt(U"Clear", ratioPosFromCenter(max(0.3, 219/screenSize.x), -0.46), 100, !retInitialize)) tes.clear();
         if(button->leftClicked() && !retInitialize){
             int cnt = 0;
             bool valid = true;
@@ -88,33 +106,33 @@ public:
         /// <summary>
         /// 初期化部分
         /// </summary>
-        if (SimpleGUI::Button(U"初期化", Vec2(0, 560), 100, !retInitialize)) {
+        if (SimpleGUI::ButtonAt(U"初期化", ratioPosFromCenter(-0.87, -0.93), 100, !retInitialize)) {
             retInitialize = true;
         }
         RectF(Vec2(0, 0), screenSize).draw(ColorF(Palette::Black, !retInitialize == true ? 0.0 : 0.5));
         if (retInitialize == true) {
-            RectF(ratioPos(0.15, 0.25), ratioPos(0.7, 0.5)).draw(ColorF(0.8, 0, 0, 1.0));
+            RectF(Arg::center(ratioPosFromCenter(0, 0)), ratioPos(max(0.7, 420/screenSize.x), max(0.5, 250/screenSize.y))).draw(ColorF(0.8, 0, 0, 1.0));
             //FontAsset(U"Regular")(U"警告").draw(ratioPos(0.5, 0.4), ColorF(1, 1, 1, 1));
             initWarmText = U"警告";
-            (*font)(initWarmText).drawAt(ratioPos(0.5, 0.35), ColorF(1, 1, 1, 1));
-            FontAsset(U"Regular")(U"初期化を行うと、マネージャのパスワード\n及び保存されたデータは完全に失われます").draw(ratioPos(0.27, 0.43), ColorF(1, 1, 1, 1));
-            FontAsset(U"Regular")(U"初期化しますか？").draw(ratioPos(0.4, 0.58), ColorF(1, 1, 1, 1));
-            if (SimpleGUI::Button(U"キャンセル", ratioPos(0.55, 0.65))) {
+            (*font)(initWarmText).drawAt(ratioPosFromCenter(0.0, max(0.3, 150/screenSize.y)), ColorF(1, 1, 1, 1));
+            FontAsset(U"Regular")(U"初期化を行うと、マネージャのパスワード\n及び保存されたデータは完全に失われます").drawAt(ratioPosFromCenter(0.0, 0.0), ColorF(1, 1, 1, 1));
+            FontAsset(U"Regular")(U"初期化しますか？").drawAt(ratioPosFromCenter(0.0, min(-0.2, -100/screenSize.y)), ColorF(1, 1, 1, 1));
+            if (SimpleGUI::ButtonAt(U"キャンセル", ratioPosFromCenter(max(0.36, 216/screenSize.x), min(-0.36, -180/screenSize.y)))) {
                 initWarmText = U"";
                 retInitialize = false;
             }
-            if (SimpleGUI::Button(U"はい", ratioPos(0.29, 0.65))) {
+            if (SimpleGUI::ButtonAt(U"初期化する", ratioPosFromCenter(min(-0.36, 216/screenSize.x), min(-0.36, -180/screenSize.y)))) {
                 isInitialize = true;
             }
             if (isInitialize == true){
                 initWarmText = U"";
-                bool isSuccessCopyKey = FileSystem::Copy(key_db_name, U"intTMP" + key_db_name, CopyOption::OverwriteExisting);
-                bool isSuccessCopyMain = FileSystem::Copy(main_db_name, U"mainInitTMP.dat", CopyOption::OverwriteExisting);
+                bool isSuccessCopyKey = FileSystem::Copy(key_db_name, U"initTMP" + key_db_name, CopyOption::OverwriteExisting);
+                bool isSuccessCopyMain = FileSystem::Copy(main_db_name, U"initTMP" + main_db_name, CopyOption::OverwriteExisting);
                 bool isSuccessRemoveKey = FileSystem::Remove(U"key.dat", false);
                 bool isSuccessRemoveMain = FileSystem::Remove(U"main.dat", false);
                 if (((isSuccessRemoveKey || !isSuccessCopyKey) && (isSuccessRemoveMain || !isSuccessCopyMain))) {
-                    FileSystem::Remove(U"keyInitTMP.dat", false);
-                    FileSystem::Remove(U"mainInitTMP.dat", false);
+                    FileSystem::Remove(U"initTMP" + key_db_name, false);
+                    FileSystem::Remove(U"initTMP" + main_db_name, false);
                     isInitialize = false;
                     retInitialize = false;
                     text = U"初期化成功";
@@ -123,10 +141,10 @@ public:
                 else {
                     initWarmText = U"";
                     text = U"初期化失敗";
-                    FileSystem::Copy(U"keyInitTMP.dat", U"key.dat", CopyOption::OverwriteExisting);
-                    FileSystem::Copy(U"mainInitTMP.dat", U"main.dat", CopyOption::OverwriteExisting);
-                    FileSystem::Remove(U"keyInitTMP.dat", false);
-                    FileSystem::Remove(U"mainInitTMP.dat", false);
+                    FileSystem::Copy(U"initTMP" + key_db_name, U"key.dat", CopyOption::OverwriteExisting);
+                    FileSystem::Copy(U"initTMP" + main_db_name, U"main.dat", CopyOption::OverwriteExisting);
+                    FileSystem::Remove(U"initTMP" + key_db_name, false);
+                    FileSystem::Remove(U"initTMP" + main_db_name, false);
                     isInitialize = false;
                     retInitialize = false;
                 }
@@ -149,6 +167,18 @@ private:
     Font* font1;
     String text = U"Please create your password";
     TextEditState tes1;
+    Vec2 screenSize;
+    Vec2 screenCenter;
+
+    Vec2 ratioPosFromCenter(double x, double y) {
+        // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
+        y *= -1;
+        x *= 0.5;
+        y *= 0.5;
+        x += 0.5;
+        y += 0.5;
+        return Vec2(screenSize.x * x, screenSize.y * y);
+    }
 
 public:
     CreatePassword(const InitData& init) : IScene(init) { // コンストラクタ（必ず実装
@@ -157,6 +187,8 @@ public:
         press = new Transition(0.05s, 0.05s);
         font1 = new Font(25, Typeface::Heavy);
         Scene::SetBackground(Color(192, 192, 192));
+        Window::SetStyle(WindowStyle::Sizable);
+        Scene::SetScaleMode(ScaleMode::ResizeFill);
     }
 
     ~CreatePassword(){ // Destructor
@@ -167,11 +199,16 @@ public:
     }
 
     void update() override { // 更新関数
+        screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
+        screenCenter = Window::ClientCenter();
+
+        button1->center = ratioPosFromCenter(0.9, -0.8667);
+        
         const size_t length = static_cast<size_t>(Scene::Time() / 0.1); // 文字カウントを 0.1 秒ごとに増やす
 
         // text の文字数以上の length は切り捨てられる
         (*font1)(text.substr(0, length)).drawAt(Scene::Center(), Color(41, 26, 33));
-        SimpleGUI::TextBox(tes1, Vec2(280, 340), 250, 64);
+        SimpleGUI::TextBoxAt(tes1, ratioPosFromCenter(0.0, min(-0.2, -80/screenSize.y)), 250, 64);
 
         const bool mouseOver = (*button1).mouseOver();
         if(mouseOver) Cursor::RequestStyle(CursorStyle::Hand); // マウスカーソルを手の形に
@@ -253,6 +290,7 @@ private:
     } noticeType;
 
     Vec2 screenSize;
+    
 
     Vec2 ratioPos(double x, double y) {
         return Vec2(screenSize.x * x, screenSize.y * y);
@@ -285,6 +323,11 @@ public:
         noticeTimer += Scene::DeltaTime();
         screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
         scroll.max = floor((screenSize.y-100)/50);
+        RectF serviceNameHeadCullBox(70, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
+        RectF userNameHeadCullBox(0.35 * screenSize.x, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
+        RectF passwordHeadCullBox(0.6 * screenSize.x, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
+
+        RectF visibleTexCullBox(screenSize.x - 130, 10, 500, 30);
 
         if (Rect(50, 50, screenSize.x-100, screenSize.y-110).drawFrame(10, Design::frame).draw(Design::inFrame).mouseOver() && popupState == notPopup) {
             scroll.wheel += Mouse::Wheel();
@@ -294,14 +337,16 @@ public:
             scroll.current = floor(scroll.wheel);
         }
 
-        FontAsset(U"Regular")(U"サービス名").draw(70, 10, Design::fontColor);
-        FontAsset(U"Regular")(U"ユーザー名").draw(ratioPos(0.35,0).x, 10, Design::fontColor);
-        FontAsset(U"Regular")(U"パスワード").draw(ratioPos(0.6,0).x, 10, Design::fontColor);
+        FontAsset(U"Regular")(U"サービス名").draw(serviceNameHeadCullBox, Design::fontColor);
+        FontAsset(U"Regular")(U"ユーザー名").draw(userNameHeadCullBox, Design::fontColor);
+        FontAsset(U"Regular")(U"パスワード").draw(passwordHeadCullBox, Design::fontColor);
 
         if (TextureAsset(isVisiblePass ? U"visible" : U"invisible").resized(30).draw(Arg::center(ratioPos(0.6, 0).x+130, isVisiblePass ? 25 : 26)).mouseOver() && popupState == notPopup) {
             Cursor::RequestStyle(CursorStyle::Hand);
             if (MouseL.down()) isVisiblePass ^= true;
         }
+        visibleTexCullBox.draw(Design::background);
+
 
         if (SimpleGUI::Button(U"追加", Vec2(screenSize.x - 130, 5))) {
             popupState = forAdd;
@@ -313,11 +358,15 @@ public:
         for (int i = 0; i < scroll.max; i++) {
             if (scroll.current + i >= passArray.size()) break;
             int height = 50 + 50*i;
+            RectF serviceNameTexCullBox(70, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
+            RectF userNameTexCullBox(0.35 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
+            RectF passwordTexCullBox(0.6 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
+            //dataTexCullBox.draw();
 
             // Array passArrayのインデックスは scroll.current + i
-            FontAsset(U"Regular")(passArray[scroll.current + i].service_name).draw(70, height, Design::fontColor);
-            FontAsset(U"Regular")(passArray[scroll.current + i].user_name).draw(ratioPos(0.35, 0).x, height, Design::fontColor);
-            FontAsset(U"Regular")(isVisiblePass ? passArray[scroll.current + i].password : U"*****").draw(ratioPos(0.6, 0).x, height, Design::fontColor);
+            FontAsset(U"Regular")(passArray[scroll.current + i].service_name).draw(serviceNameTexCullBox, Design::fontColor);
+            FontAsset(U"Regular")(passArray[scroll.current + i].user_name).draw(userNameTexCullBox, Design::fontColor);
+            FontAsset(U"Regular")(isVisiblePass ? passArray[scroll.current + i].password : U"*****").draw(passwordTexCullBox, Design::fontColor);
 
             if (TextureAsset(U"copy").resized(30).draw(screenSize.x-160, height).mouseOver() && popupState == notPopup) {
                 Cursor::RequestStyle(CursorStyle::Hand);
@@ -357,6 +406,7 @@ public:
             case forEdit:
             case confirming:
                 RectF(ratioPos(0.15,0.25), ratioPos(0.7,0.5)).draw(Design::background);
+
 
                 FontAsset(U"Regular")(U"サービス名").draw(ratioPos(0.2,0.3), Design::fontColor);
                 SimpleGUI::TextBox(serviceNameText, ratioPos(0.2,0.35), screenSize.x / 4, unspecified, popupState != confirming);
