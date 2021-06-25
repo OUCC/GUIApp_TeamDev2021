@@ -50,6 +50,8 @@ public:
         FontAsset::Register(U"Regular", 20);
         key_db_name = U"key.dat";
         main_db_name = U"main.dat";
+        if (!Database.is_registered()) changeScene(U"CreatePassword", -20.0s); // パスワード作成シーンに遷移
+
 
 
         Scene::SetBackground(Color(106.0, 90.0, 205.0, 1.0));
