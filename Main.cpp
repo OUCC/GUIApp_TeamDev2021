@@ -86,8 +86,8 @@ public:
         // center から (4, 4) ずらした位置を中心にテキストを描く
         (*font)(text).drawAt(center->movedBy(4, 4), ColorF(106, 90, 205, 0.5));
         (*font)(text).drawAt(*center);
-        SimpleGUI::TextBoxAt(tes, ratioPosFromCenter(min(-0.188, 137.824/screenSize.x), -0.46), 250, 64, !retInitialize);
-        if(SimpleGUI::ButtonAt(U"Clear", ratioPosFromCenter(max(0.3, 219/screenSize.x), -0.46), 100, !retInitialize)) tes.clear();
+        SimpleGUI::TextBoxAt(tes, ratioPosFromCenter(min(-0.188, 137.824/screenSize.x), -0.46), max(135.0, screenSize.x*0.3125), 64, !retInitialize);
+        if(SimpleGUI::ButtonAt(U"Clear", ratioPosFromCenter(max(0.3, 240/screenSize.x), -0.46), 100, !retInitialize)) tes.clear();
         if(button->leftClicked() && !retInitialize){
             int cnt = 0;
             bool valid = true;
@@ -296,6 +296,16 @@ private:
         return Vec2(screenSize.x * x, screenSize.y * y);
     }
 
+    Vec2 ratioPosFromCenter(double x, double y) {
+        // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
+        y *= -1;
+        x *= 0.5;
+        y *= 0.5;
+        x += 0.5;
+        y += 0.5;
+        return Vec2(screenSize.x * x, screenSize.y * y);
+    }
+
 public:
     MainScene(const InitData& init) : IScene(init) {
         Scene::SetBackground(Design::background);
@@ -326,6 +336,14 @@ public:
         RectF serviceNameHeadCullBox(70, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
         RectF userNameHeadCullBox(0.35 * screenSize.x, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
         RectF passwordHeadCullBox(0.6 * screenSize.x, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
+        
+        RectF popupServiceNameHeadCullBox(ratioPosFromCenter(-0.6, max(0.4, 240 / screenSize.y)).x, ratioPosFromCenter(-0.6, max(0.4, 240 / screenSize.y)).y, screenSize.x / 4, 50);
+        RectF popupUserNameHeadCullBox(ratioPosFromCenter(-0.6, max(0.16, 96 / screenSize.y)).x, ratioPosFromCenter(-0.6, max(0.16, 96 / screenSize.y)).y, screenSize.x / 4, 50);
+        RectF popupPasswordHeadCullBox(ratioPosFromCenter(-0.6, min(-0.08, -48 / screenSize.y)).x, ratioPosFromCenter(-0.6, min(-0.08, -48 / screenSize.y)).y, screenSize.x/4, 50);
+        RectF popupAddChangePasswordHeadCullBox(ratioPosFromCenter(0.0, max(0.4, 240/screenSize.y)), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
+        RectF popupAddChangePasswordTextCullBox(ratioPos(0.5, 0.4), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
+        //RectF popupCancelButtonCullBox(ratioPosFromCenter(0.0, min(-0.3, -180 / screenSize.y)), 100, 50);
+        RectF repopCheckTextCullBox(ratioPos(0.57, 0.38), ratioPos(0.25, max(0.4, 240 / screenSize.y)));
 
         RectF visibleTexCullBox(screenSize.x - 130, 10, 500, 30);
 
@@ -358,15 +376,15 @@ public:
         for (int i = 0; i < scroll.max; i++) {
             if (scroll.current + i >= passArray.size()) break;
             int height = 50 + 50*i;
-            RectF serviceNameTexCullBox(70, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
-            RectF userNameTexCullBox(0.35 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
-            RectF passwordTexCullBox(0.6 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
+            RectF serviceNameTextCullBox(70, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
+            RectF userNameTextCullBox(0.35 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
+            RectF passwordTextCullBox(0.6 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
             //dataTexCullBox.draw();
 
             // Array passArrayのインデックスは scroll.current + i
-            FontAsset(U"Regular")(passArray[scroll.current + i].service_name).draw(serviceNameTexCullBox, Design::fontColor);
-            FontAsset(U"Regular")(passArray[scroll.current + i].user_name).draw(userNameTexCullBox, Design::fontColor);
-            FontAsset(U"Regular")(isVisiblePass ? passArray[scroll.current + i].password : U"*****").draw(passwordTexCullBox, Design::fontColor);
+            FontAsset(U"Regular")(passArray[scroll.current + i].service_name).draw(serviceNameTextCullBox, Design::fontColor);
+            FontAsset(U"Regular")(passArray[scroll.current + i].user_name).draw(userNameTextCullBox, Design::fontColor);
+            FontAsset(U"Regular")(isVisiblePass ? passArray[scroll.current + i].password : U"*****").draw(passwordTextCullBox, Design::fontColor);
 
             if (TextureAsset(U"copy").resized(30).draw(screenSize.x-160, height).mouseOver() && popupState == notPopup) {
                 Cursor::RequestStyle(CursorStyle::Hand);
@@ -405,15 +423,15 @@ public:
             case forAdd:
             case forEdit:
             case confirming:
-                RectF(ratioPos(0.15,0.25), ratioPos(0.7,0.5)).draw(Design::background);
+                RectF(Arg::center(ratioPosFromCenter(0.0,0.0)), ratioPosFromCenter(0.7,min(-0.5, -350/screenSize.y))).draw(Design::background);
 
 
-                FontAsset(U"Regular")(U"サービス名").draw(ratioPos(0.2,0.3), Design::fontColor);
-                SimpleGUI::TextBox(serviceNameText, ratioPos(0.2,0.35), screenSize.x / 4, unspecified, popupState != confirming);
-                FontAsset(U"Regular")(U"ユーザー名").draw(ratioPos(0.2, 0.42), Design::fontColor);
-                SimpleGUI::TextBox(userNameText, ratioPos(0.2, 0.47), screenSize.x / 4, unspecified, popupState != confirming);
-                FontAsset(U"Regular")(U"パスワード").draw(ratioPos(0.2, 0.54), Design::fontColor);
-                SimpleGUI::TextBox(passwordText, ratioPos(0.2, 0.59), screenSize.x /4, unspecified, popupState != confirming);
+                FontAsset(U"Regular")(U"サービス名").draw(popupServiceNameHeadCullBox, Design::fontColor);
+                SimpleGUI::TextBox(serviceNameText, ratioPosFromCenter(-0.6,max(0.3, 180/screenSize.y)), screenSize.x / 4, unspecified, popupState != confirming);
+                FontAsset(U"Regular")(U"ユーザー名").draw(popupUserNameHeadCullBox, Design::fontColor);
+                SimpleGUI::TextBox(userNameText, ratioPosFromCenter(-0.6, 0.06), screenSize.x / 4, unspecified, popupState != confirming);
+                FontAsset(U"Regular")(U"パスワード").draw(popupPasswordHeadCullBox, Design::fontColor);
+                SimpleGUI::TextBox(passwordText, ratioPosFromCenter(-0.6, min(-0.18, -108/screenSize.y)), screenSize.x /4, unspecified, popupState != confirming);
 
                 for(char32_t var: passwordText.text) {
                     if(U'!'<=var && var<=U'~') cnt++;
@@ -424,18 +442,18 @@ public:
                 }
                 
                 if (popupState != confirming || !valid || !cnt) {
-                    FontAsset(U"Regular")(popupState == forAdd ? U"パスワードの追加" : U"パスワードの変更").draw(ratioPos(0.5,0.3), Design::fontColor);
-                    if (!valid || !cnt) FontAsset(U"Regular")(U"0文字以上の ASCII 文字のみ\n対応です。").draw(ratioPos(0.5, 0.4), Design::fontColor);
+                    FontAsset(U"Regular")(popupState == forAdd ? U"パスワードの追加" : U"パスワードの変更").draw(popupAddChangePasswordHeadCullBox, Design::fontColor);
+                    if (!valid || !cnt) FontAsset(U"Regular")(U"0文字以上の ASCII 文字のみ対応です。").draw(popupAddChangePasswordTextCullBox, Design::fontColor);
                     else if (SimpleGUI::Button(U"決定", ratioPos(0.5,0.5))) {
                         lastPopupState = popupState;
                         popupState = confirming;
                     }
-                    if (SimpleGUI::Button(U"キャンセル", ratioPos(0.5,0.65))) popupState = notPopup;
+                    if (SimpleGUI::Button(U"キャンセル", ratioPosFromCenter(0.0,min(-0.3, -180/screenSize.y)), max(100.0, min(140.0, 0.175*screenSize.x)))) popupState = notPopup;
                 }
                 else {
                     // 再確認
-                    RectF(ratioPos(0.5,0.3),ratioPos(0.33,0.4)).drawFrame(5, Design::frame);
-                    FontAsset(U"Regular")(U"この内容で\n確定しますか？").draw(ratioPos(0.57,0.38), Design::fontColor);
+                    RectF(ratioPosFromCenter(0.0,0.4),ratioPos(0.33,max(0.4, 240/screenSize.y))).drawFrame(5, Design::frame);
+                    FontAsset(U"Regular")(U"この内容で\n確定しますか？").draw(repopCheckTextCullBox, Design::fontColor);
                     if (SimpleGUI::Button(U"はい", ratioPos(0.54, 0.58),80)) {
                         single_data temp(serviceNameText.text, userNameText.text, passwordText.text);
                         // パスワードの追加・変更処理
