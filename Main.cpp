@@ -15,6 +15,17 @@ private:
     Circle *button;
     Transition *press;
     String text = U"Welcome";
+    bool retInitialize;
+    bool isInitialize;
+    Vec2 screenSize;
+    String initWarmText = U"";
+    String key_db_name;
+    String main_db_name;
+
+
+    Vec2 ratioPos(double x, double y) {
+        return Vec2(screenSize.x * x, screenSize.y * y);
+    }
 
 public:
     Login(const InitData& init): IScene(init) { // コンストラクタ（必ず実装
@@ -23,6 +34,12 @@ public:
         buttonColor = new ColorF(1.0, 90.0, 205.0, 0.5);
         button = new Circle(700, 400, 20);
         press = new Transition(0.05s, 0.05s);
+        retInitialize = false;
+        isInitialize = false;
+        FontAsset::Register(U"Regular", 20);
+        key_db_name = U"key.dat";
+        main_db_name = U"main.dat";
+
 
         Scene::SetBackground(Color(106.0, 90.0, 205.0, 1.0));
         tes.text = U"Password";
@@ -39,6 +56,7 @@ public:
     void update() override { // 更新関数
         if(!Database.is_registered()) changeScene(U"CreatePassword"); // パスワード作成シーンに遷移
 
+        screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
         const bool mouseOver = button->mouseOver();
         if(mouseOver) Cursor::RequestStyle(CursorStyle::Hand); // 円の上にマウスカーソルがあれば
         press->update(button->leftPressed());
@@ -50,9 +68,9 @@ public:
         // center から (4, 4) ずらした位置を中心にテキストを描く
         (*font)(text).drawAt(center->movedBy(4, 4), ColorF(106, 90, 205, 0.5));
         (*font)(text).drawAt(*center);
-        SimpleGUI::TextBox(tes, Vec2(200, 420), 250, 64);
-        if(SimpleGUI::Button(U"Clear", Vec2(470, 420))) tes.clear();
-        if(button->leftClicked()){
+        SimpleGUI::TextBox(tes, Vec2(200, 420), 250, 64, !retInitialize);
+        if(SimpleGUI::Button(U"Clear", Vec2(470, 420), 100, !retInitialize)) tes.clear();
+        if(button->leftClicked() && !retInitialize){
             int cnt = 0;
             bool valid = true;
             for(char32_t var: tes.text) {
@@ -65,6 +83,55 @@ public:
             if(!valid || !cnt) text = U"Invalid Password.";
             else if(Database.login(tes.text)) changeScene(U"MainScene", 1.0s); // メインシーンに 1 秒かけて遷移
             else text = U"Wrong Password";
+        }
+
+        /// <summary>
+        /// 初期化部分
+        /// </summary>
+        if (SimpleGUI::Button(U"初期化", Vec2(0, 560), 100, !retInitialize)) {
+            retInitialize = true;
+        }
+        RectF(Vec2(0, 0), screenSize).draw(ColorF(Palette::Black, !retInitialize == true ? 0.0 : 0.5));
+        if (retInitialize == true) {
+            RectF(ratioPos(0.15, 0.25), ratioPos(0.7, 0.5)).draw(ColorF(0.8, 0, 0, 1.0));
+            //FontAsset(U"Regular")(U"警告").draw(ratioPos(0.5, 0.4), ColorF(1, 1, 1, 1));
+            initWarmText = U"警告";
+            (*font)(initWarmText).drawAt(ratioPos(0.5, 0.35), ColorF(1, 1, 1, 1));
+            FontAsset(U"Regular")(U"初期化を行うと、マネージャのパスワード\n及び保存されたデータは完全に失われます").draw(ratioPos(0.27, 0.43), ColorF(1, 1, 1, 1));
+            FontAsset(U"Regular")(U"初期化しますか？").draw(ratioPos(0.4, 0.58), ColorF(1, 1, 1, 1));
+            if (SimpleGUI::Button(U"キャンセル", ratioPos(0.55, 0.65))) {
+                initWarmText = U"";
+                retInitialize = false;
+            }
+            if (SimpleGUI::Button(U"はい", ratioPos(0.29, 0.65))) {
+                isInitialize = true;
+            }
+            if (isInitialize == true){
+                initWarmText = U"";
+                bool isSuccessCopyKey = FileSystem::Copy(key_db_name, U"intTMP" + key_db_name, CopyOption::OverwriteExisting);
+                bool isSuccessCopyMain = FileSystem::Copy(main_db_name, U"mainInitTMP.dat", CopyOption::OverwriteExisting);
+                bool isSuccessRemoveKey = FileSystem::Remove(U"key.dat", false);
+                bool isSuccessRemoveMain = FileSystem::Remove(U"main.dat", false);
+                if (((isSuccessRemoveKey || !isSuccessCopyKey) && (isSuccessRemoveMain || !isSuccessCopyMain))) {
+                    FileSystem::Remove(U"keyInitTMP.dat", false);
+                    FileSystem::Remove(U"mainInitTMP.dat", false);
+                    isInitialize = false;
+                    retInitialize = false;
+                    text = U"初期化成功";
+                    //changeScene(U"CreatePassword");
+                }
+                else {
+                    initWarmText = U"";
+                    text = U"初期化失敗";
+                    FileSystem::Copy(U"keyInitTMP.dat", U"key.dat", CopyOption::OverwriteExisting);
+                    FileSystem::Copy(U"mainInitTMP.dat", U"main.dat", CopyOption::OverwriteExisting);
+                    FileSystem::Remove(U"keyInitTMP.dat", false);
+                    FileSystem::Remove(U"mainInitTMP.dat", false);
+                    isInitialize = false;
+                    retInitialize = false;
+                }
+
+            }
         }
     }
 
