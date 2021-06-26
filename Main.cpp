@@ -88,7 +88,7 @@ public:
         (*font)(text).drawAt(*center);
         SimpleGUI::TextBoxAt(tes, ratioPosFromCenter(min(-0.188, 137.824/screenSize.x), -0.46), max(135.0, screenSize.x*0.3125), 64, !retInitialize);
         if(SimpleGUI::ButtonAt(U"Clear", ratioPosFromCenter(max(0.3, 240/screenSize.x), -0.46), 100, !retInitialize)) tes.clear();
-        if(button->leftClicked() && !retInitialize){
+        if((button->leftClicked() || KeyEnter.down()) && !retInitialize){
             int cnt = 0;
             bool valid = true;
             for(char32_t var: tes.text) {
