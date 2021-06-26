@@ -18,7 +18,6 @@ private:
     bool retInitialize;
     bool isInitialize;
     Vec2 screenSize;
-    Vec2 screenCenter;
     String initWarmText = U"";
     String key_db_name;
     String main_db_name;
@@ -72,7 +71,6 @@ public:
         if(!Database.is_registered()) changeScene(U"CreatePassword"); // パスワード作成シーンに遷移
 
         screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
-        screenCenter = Window::ClientCenter();
 
         button->center = ratioPosFromCenter(max(0.75, 375/screenSize.x), -0.3333333);
         *center = ratioPosFromCenter(0, 0.76667);
@@ -171,7 +169,6 @@ private:
     TextEditState tes1;
     TextEditState tes2;
     Vec2 screenSize;
-    Vec2 screenCenter;
 
     Vec2 ratioPosFromCenter(double x, double y) {
         // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
@@ -205,7 +202,6 @@ public:
 
     void update() override { // 更新関数
         screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
-        screenCenter = Window::ClientCenter();
 
         button1->center = ratioPosFromCenter(0.9, -0.8667);
         
@@ -377,7 +373,6 @@ public:
         RectF popupPasswordHeadCullBox(ratioPosFromCenter(-0.6, min(-0.08, -48 / screenSize.y)).x, ratioPosFromCenter(-0.6, min(-0.08, -48 / screenSize.y)).y, screenSize.x/4, 50);
         RectF popupAddChangePasswordHeadCullBox(ratioPosFromCenter(0.0, max(0.4, 240/screenSize.y)), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         RectF popupAddChangePasswordTextCullBox(ratioPos(0.5, 0.4), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
-        //RectF popupCancelButtonCullBox(ratioPosFromCenter(0.0, min(-0.3, -180 / screenSize.y)), 100, 50);
         RectF repopCheckTextCullBox(ratioPos(0.57, 0.38), ratioPos(0.2, max(0.4, 240 / screenSize.y)));
 
         RectF visibleTexCullBox(screenSize.x - 130, 10, 500, 30);
