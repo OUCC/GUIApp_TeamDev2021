@@ -374,6 +374,9 @@ public:
         RectF popupAddChangePasswordHeadCullBox(ratioPosFromCenter(0.0, max(0.4, 240/screenSize.y)), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         RectF popupAddChangePasswordTextCullBox(ratioPos(0.5, 0.4), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         RectF repopCheckTextCullBox(ratioPos(0.57, 0.38), ratioPos(0.2, max(0.4, 240 / screenSize.y)));
+        //RectF popupServiceNameInputCullBox(ratioPosFromCenter(-0.6, max(0.3, 180 / screenSize.y)), screenSize.x / 4, 20);
+        //RectF popupUserNameInputCullBox(ratioPosFromCenter(-0.6, max(0.06, 36 / screenSize.y)), screenSize.x / 4, 20);
+        //RectF popupPasswordInputCullBox(ratioPosFromCenter(-0.6, min(-0.18, -108 / screenSize.y)), screenSize.x / 4, 20);
 
         RectF visibleTexCullBox(screenSize.x - 130, 10, 500, 30);
 
@@ -463,7 +466,7 @@ public:
                 FontAsset(U"Regular")(U"サービス名").draw(popupServiceNameHeadCullBox, Design::fontColor);
                 SimpleGUI::TextBox(serviceNameText, ratioPosFromCenter(-0.6,max(0.3, 180/screenSize.y)), screenSize.x / 4, unspecified, popupState != confirming);
                 FontAsset(U"Regular")(U"ユーザー名").draw(popupUserNameHeadCullBox, Design::fontColor);
-                SimpleGUI::TextBox(userNameText, ratioPosFromCenter(-0.6, 0.06), screenSize.x / 4, unspecified, popupState != confirming);
+                SimpleGUI::TextBox(userNameText, ratioPosFromCenter(-0.6, max(0.06, 36/screenSize.y)), screenSize.x / 4, unspecified, popupState != confirming);
                 FontAsset(U"Regular")(U"パスワード").draw(popupPasswordHeadCullBox, Design::fontColor);
                 SimpleGUI::TextBox(passwordText, ratioPosFromCenter(-0.6, min(-0.18, -108/screenSize.y)), screenSize.x /4, unspecified, popupState != confirming);
 
