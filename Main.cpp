@@ -253,7 +253,7 @@ public:
 
                     }
                     else {
-                        text = U"Fail to Change Password";
+                        text = U"Failed to Change Password";
                     }
                 }
                 else {
