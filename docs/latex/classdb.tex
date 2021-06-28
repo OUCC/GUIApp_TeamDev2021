@@ -19,7 +19,7 @@ bool \mbox{\hyperlink{classdb_a6467d25aa65b8b8d0c206a6afad7df14}{is\+\_\+registe
 bool \mbox{\hyperlink{classdb_acff925896188a6a78e4f9fbe567f4d01}{is\+\_\+logined}} ()
 \begin{DoxyCompactList}\small\item\em PWマネージャーにすでにログインしているかを返す \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classdb_a0421e23600a1802f95527e1c233a671e}{register\+\_\+passwd}} (String passwd)
-\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録している \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを登録する @detail ログイン処理も行われる \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_af8db8c887e8d3ca0c23ebca2f6399363}{change\+\_\+passwd}} (String old\+\_\+passwd, String new\+\_\+passwd)
 \begin{DoxyCompactList}\small\item\em PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread\+\_\+data()、write\+\_\+data()は新しいパスワードでの暗号化/復号化化がなされます ログインも済んだことになります(ログイン済みの状態で呼び出すことが想定されますが…) \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{classdb_a359f57f1d20aadc602b3bd1e773a7859}{login}} (String passwd)
@@ -27,7 +27,9 @@ bool \mbox{\hyperlink{classdb_a359f57f1d20aadc602b3bd1e773a7859}{login}} (String
 Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ \mbox{\hyperlink{classdb_a26fd9bac41fb7235130235951f2e22ae}{read\+\_\+data}} ()
 \begin{DoxyCompactList}\small\item\em データを読み込む \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}{write\+\_\+data}} (Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ data)
-\begin{DoxyCompactList}\small\item\em データを書き込む \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em データを書き込む \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classdb_a32454325af0de8bca0f6fd7ef12373de}{initialize}} ()
+\begin{DoxyCompactList}\small\item\em データの初期化 \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -81,6 +83,30 @@ true 変更前のパスワードが正しく、変更に成功した場合
 
 false 変更前のパスワードが間違っていて変更に失敗した場合 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classdb_a32454325af0de8bca0f6fd7ef12373de}\label{classdb_a32454325af0de8bca0f6fd7ef12373de}} 
+\index{db@{db}!initialize@{initialize}}
+\index{initialize@{initialize}!db@{db}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily bool db\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+データの初期化 
+
+片方のみ削除されてしまったとき用にバックアップを作ってから削除
+
+\begin{DoxyReturn}{Returns}
+true 削除に成功した場合 
+
+false 削除に失敗し、復元した場合 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & 削除に成功したが、コピーの削除に失敗した場合 \\
+\hline
+{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & 削除に失敗し、復元もできなかった場合 \\
+\hline
+\end{DoxyExceptions}
 \mbox{\Hypertarget{classdb_acff925896188a6a78e4f9fbe567f4d01}\label{classdb_acff925896188a6a78e4f9fbe567f4d01}} 
 \index{db@{db}!is\_logined@{is\_logined}}
 \index{is\_logined@{is\_logined}!db@{db}}
@@ -169,7 +195,7 @@ Array$<$single\+\_\+data$>$ 読み込んだデータ(データがまだ作られ
 
 
 
-PWマネージャーのパスワードを登録している 
+PWマネージャーのパスワードを登録する @detail ログイン処理も行われる 
 
 
 \begin{DoxyParams}{Parameters}

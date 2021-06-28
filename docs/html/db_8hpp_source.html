@@ -124,96 +124,129 @@ $(document).ready(function(){initNavTree('db_8hpp_source.html',''); initResizabl
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> key != U<span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classdb.html#a0421e23600a1802f95527e1c233a671e">   69</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classdb.html#a0421e23600a1802f95527e1c233a671e">register_passwd</a>(String passwd) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        String db_key = get_db_key();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span>(db_key != U<span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;a key has already been registered&quot;</span>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        db_key = sha256(passwd);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        Serializer&lt;BinaryWriter&gt; writer(key_db_name);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (!writer.getWriter()) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(key_db_name));</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        writer(db_key);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        key = passwd;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">   93</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">change_passwd</a>(String old_passwd, String new_passwd) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        String old_hash = sha256(old_passwd);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        String db_key = get_db_key();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">if</span> (db_key == U<span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;no key has been registered&quot;</span>);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">if</span> (old_hash != db_key) {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        db_key = sha256(new_passwd);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        Serializer&lt;BinaryWriter&gt; writer(key_db_name);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">if</span> (!writer.getWriter()) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(key_db_name));</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        writer(db_key);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        Array&lt;single_data&gt; data = read_data();</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        key = new_passwd;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        write_data(data);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">  123</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">login</a>(String passwd) {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        String hash = sha256(passwd);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        String db_key = get_db_key();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">if</span>(db_key == U<span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;no key has been registered&quot;</span>);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">if</span>(hash != db_key) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        key = passwd;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">  143</a></span>&#160;    Array&lt;single_data&gt; <a class="code" href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">read_data</a>() {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">if</span> (!is_logined()) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;not logined&quot;</span>);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">if</span> (!FileSystem::IsFile(main_db_name)) <span class="keywordflow">return</span> Array&lt;single_data&gt;();</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        Deserializer&lt;BinaryReader&gt; reader(main_db_name);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">if</span> (!reader.getReader()) {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(main_db_name));</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        Array&lt;single_data&gt; data;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        reader(data);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.size(); i++) {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            data[i].decrypt(key);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        }</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">return</span> data;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">  167</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">write_data</a>(Array&lt;single_data&gt; data) {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">if</span> (!is_logined()) {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;not logined&quot;</span>);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        Serializer&lt;BinaryWriter&gt; writer(main_db_name);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">if</span> (!writer.getWriter()) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(main_db_name));</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        }</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.size(); i++) {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            data[i].encrypt(key);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        }</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        writer(data);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classdb.html#a0421e23600a1802f95527e1c233a671e">   70</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classdb.html#a0421e23600a1802f95527e1c233a671e">register_passwd</a>(String passwd) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        String db_key = get_db_key();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">if</span>(db_key != U<span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;a key has already been registered&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        db_key = sha256(passwd);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        Serializer&lt;BinaryWriter&gt; writer(key_db_name);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">if</span> (!writer.getWriter()) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(key_db_name));</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        writer(db_key);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        key = passwd;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">   94</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">change_passwd</a>(String old_passwd, String new_passwd) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        String old_hash = sha256(old_passwd);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        String db_key = get_db_key();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span> (db_key == U<span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;no key has been registered&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">if</span> (old_hash != db_key) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        db_key = sha256(new_passwd);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        Serializer&lt;BinaryWriter&gt; writer(key_db_name);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">if</span> (!writer.getWriter()) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(key_db_name));</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        writer(db_key);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        Array&lt;single_data&gt; data = read_data();</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        key = new_passwd;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        write_data(data);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">  124</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">login</a>(String passwd) {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        String hash = sha256(passwd);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        String db_key = get_db_key();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span>(db_key == U<span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;no key has been registered&quot;</span>);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordflow">if</span>(hash != db_key) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        key = passwd;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">  144</a></span>&#160;    Array&lt;single_data&gt; <a class="code" href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">read_data</a>() {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordflow">if</span> (!is_logined()) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;not logined&quot;</span>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        }</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordflow">if</span> (!FileSystem::IsFile(main_db_name)) <span class="keywordflow">return</span> Array&lt;single_data&gt;();</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        Deserializer&lt;BinaryReader&gt; reader(main_db_name);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">if</span> (!reader.getReader()) {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(main_db_name));</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        Array&lt;single_data&gt; data;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        reader(data);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.size(); i++) {</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            data[i].decrypt(key);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">return</span> data;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno"><a class="line" href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">  168</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">write_data</a>(Array&lt;single_data&gt; data) {</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">if</span> (!is_logined()) {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;not logined&quot;</span>);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        }</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        Serializer&lt;BinaryWriter&gt; writer(main_db_name);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordflow">if</span> (!writer.getWriter()) {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keywordflow">throw</span> Error(U<span class="stringliteral">&quot;Failed to open `{}`&quot;</span>_fmt(main_db_name));</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.size(); i++) {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            data[i].encrypt(key);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        writer(data);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="classdb.html#a32454325af0de8bca0f6fd7ef12373de">  191</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classdb.html#a32454325af0de8bca0f6fd7ef12373de">initialize</a>() {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        String targets[] = { key_db_name, main_db_name };</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordtype">bool</span> flag = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 2; i++) {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            String tmpFile = U<span class="stringliteral">&quot;initTMP&quot;</span> + targets[i];</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <span class="keywordflow">if</span> (!FileSystem::IsFile(targets[i])) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">if</span> (FileSystem::Copy(targets[i], tmpFile, CopyOption::OverwriteExisting)) {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="keywordflow">if</span> (FileSystem::Remove(targets[i], <span class="keyword">false</span>)) {</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    <span class="keywordflow">if</span> (!FileSystem::Remove(U<span class="stringliteral">&quot;initTMP&quot;</span> + targets[i], <span class="keyword">false</span>)) {</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                        <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;failed to remove tmp file, please remove by yourself&quot;</span>);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    }</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                }</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    flag = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            <span class="keywordflow">else</span> flag =  <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        }</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keywordflow">if</span> (!flag) {</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 2; i++) {</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                String tmpFile = U<span class="stringliteral">&quot;initTMP&quot;</span> + targets[i];</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="keywordflow">if</span> (!FileSystem::IsFile(tmpFile)) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                <span class="keywordflow">if</span> (!FileSystem::Copy(tmpFile, targets[i], CopyOption::OverwriteExisting)) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                    <span class="keywordflow">throw</span> <a class="code" href="classdb__exception.html">db_exception</a>(<span class="stringliteral">&quot;failed to remove and failed to undo, please undo by yourself&quot;</span>);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                }</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                FileSystem::Remove(tmpFile);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    }</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;};</div>
 <div class="ttc" id="aclassdb__exception_html"><div class="ttname"><a href="classdb__exception.html">db_exception</a></div><div class="ttdoc">想定されていない操作が行われたことを表す例外クラス</div><div class="ttdef"><b>Definition:</b> db_exception.hpp:10</div></div>
 <div class="ttc" id="aclassdb_html"><div class="ttname"><a href="classdb.html">db</a></div><div class="ttdoc">DBの表面上のI/Oを担当するクラス</div><div class="ttdef"><b>Definition:</b> db.hpp:15</div></div>
-<div class="ttc" id="aclassdb_html_a0421e23600a1802f95527e1c233a671e"><div class="ttname"><a href="classdb.html#a0421e23600a1802f95527e1c233a671e">db::register_passwd</a></div><div class="ttdeci">void register_passwd(String passwd)</div><div class="ttdoc">PWマネージャーのパスワードを登録している</div><div class="ttdef"><b>Definition:</b> db.hpp:69</div></div>
-<div class="ttc" id="aclassdb_html_a26fd9bac41fb7235130235951f2e22ae"><div class="ttname"><a href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">db::read_data</a></div><div class="ttdeci">Array&lt; single_data &gt; read_data()</div><div class="ttdoc">データを読み込む</div><div class="ttdef"><b>Definition:</b> db.hpp:143</div></div>
-<div class="ttc" id="aclassdb_html_a2e4e05de810d1edbc75cc9c0c15f2d91"><div class="ttname"><a href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">db::write_data</a></div><div class="ttdeci">void write_data(Array&lt; single_data &gt; data)</div><div class="ttdoc">データを書き込む</div><div class="ttdef"><b>Definition:</b> db.hpp:167</div></div>
-<div class="ttc" id="aclassdb_html_a359f57f1d20aadc602b3bd1e773a7859"><div class="ttname"><a href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">db::login</a></div><div class="ttdeci">bool login(String passwd)</div><div class="ttdoc">PWマネージャーにログインする</div><div class="ttdef"><b>Definition:</b> db.hpp:123</div></div>
+<div class="ttc" id="aclassdb_html_a0421e23600a1802f95527e1c233a671e"><div class="ttname"><a href="classdb.html#a0421e23600a1802f95527e1c233a671e">db::register_passwd</a></div><div class="ttdeci">void register_passwd(String passwd)</div><div class="ttdoc">PWマネージャーのパスワードを登録する @detail ログイン処理も行われる</div><div class="ttdef"><b>Definition:</b> db.hpp:70</div></div>
+<div class="ttc" id="aclassdb_html_a26fd9bac41fb7235130235951f2e22ae"><div class="ttname"><a href="classdb.html#a26fd9bac41fb7235130235951f2e22ae">db::read_data</a></div><div class="ttdeci">Array&lt; single_data &gt; read_data()</div><div class="ttdoc">データを読み込む</div><div class="ttdef"><b>Definition:</b> db.hpp:144</div></div>
+<div class="ttc" id="aclassdb_html_a2e4e05de810d1edbc75cc9c0c15f2d91"><div class="ttname"><a href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">db::write_data</a></div><div class="ttdeci">void write_data(Array&lt; single_data &gt; data)</div><div class="ttdoc">データを書き込む</div><div class="ttdef"><b>Definition:</b> db.hpp:168</div></div>
+<div class="ttc" id="aclassdb_html_a32454325af0de8bca0f6fd7ef12373de"><div class="ttname"><a href="classdb.html#a32454325af0de8bca0f6fd7ef12373de">db::initialize</a></div><div class="ttdeci">bool initialize()</div><div class="ttdoc">データの初期化</div><div class="ttdef"><b>Definition:</b> db.hpp:191</div></div>
+<div class="ttc" id="aclassdb_html_a359f57f1d20aadc602b3bd1e773a7859"><div class="ttname"><a href="classdb.html#a359f57f1d20aadc602b3bd1e773a7859">db::login</a></div><div class="ttdeci">bool login(String passwd)</div><div class="ttdoc">PWマネージャーにログインする</div><div class="ttdef"><b>Definition:</b> db.hpp:124</div></div>
 <div class="ttc" id="aclassdb_html_a537e1ac8277ac1d752c383d780f92579"><div class="ttname"><a href="classdb.html#a537e1ac8277ac1d752c383d780f92579">db::db</a></div><div class="ttdeci">db(String key_db_name=U&quot;key.dat&quot;, String main_db_name=U&quot;main.dat&quot;)</div><div class="ttdoc">dbのコンストラクタ</div><div class="ttdef"><b>Definition:</b> db.hpp:39</div></div>
 <div class="ttc" id="aclassdb_html_a6467d25aa65b8b8d0c206a6afad7df14"><div class="ttname"><a href="classdb.html#a6467d25aa65b8b8d0c206a6afad7df14">db::is_registered</a></div><div class="ttdeci">bool is_registered()</div><div class="ttdoc">PWマネージャーのパスワードが既に登録されているかを返す</div><div class="ttdef"><b>Definition:</b> db.hpp:49</div></div>
 <div class="ttc" id="aclassdb_html_acff925896188a6a78e4f9fbe567f4d01"><div class="ttname"><a href="classdb.html#acff925896188a6a78e4f9fbe567f4d01">db::is_logined</a></div><div class="ttdeci">bool is_logined()</div><div class="ttdoc">PWマネージャーにすでにログインしているかを返す</div><div class="ttdef"><b>Definition:</b> db.hpp:59</div></div>
-<div class="ttc" id="aclassdb_html_af8db8c887e8d3ca0c23ebca2f6399363"><div class="ttname"><a href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">db::change_passwd</a></div><div class="ttdeci">bool change_passwd(String old_passwd, String new_passwd)</div><div class="ttdoc">PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread_data()、write_data()は新しいパスワードでの暗号化/復号化化がなさ...</div><div class="ttdef"><b>Definition:</b> db.hpp:93</div></div>
+<div class="ttc" id="aclassdb_html_af8db8c887e8d3ca0c23ebca2f6399363"><div class="ttname"><a href="classdb.html#af8db8c887e8d3ca0c23ebca2f6399363">db::change_passwd</a></div><div class="ttdeci">bool change_passwd(String old_passwd, String new_passwd)</div><div class="ttdoc">PWマネージャーのパスワードを変更する @detail DBの中身の暗号も新しい暗号のものに書き換わり、以降のread_data()、write_data()は新しいパスワードでの暗号化/復号化化がなさ...</div><div class="ttdef"><b>Definition:</b> db.hpp:94</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

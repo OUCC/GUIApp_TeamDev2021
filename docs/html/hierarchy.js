@@ -5,6 +5,7 @@ var hierarchy =
       [ "db_exception", "classdb__exception.html", null ]
     ] ],
     [ "App::Scene", null, [
+      [ "CreatePassword", "class_create_password.html", null ],
       [ "Login", "class_login.html", null ],
       [ "MainScene", "class_main_scene.html", null ]
     ] ],

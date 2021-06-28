@@ -106,27 +106,11 @@ public:
             }
             if (isInitialize){
                 initWarmText = U"";
-                bool isSuccessCopyKey = FileSystem::Copy(key_db_name, U"initTMP" + key_db_name, CopyOption::OverwriteExisting);
-                bool isSuccessCopyMain = FileSystem::Copy(main_db_name, U"initTMP" + main_db_name, CopyOption::OverwriteExisting);
-                bool isSuccessRemoveKey = FileSystem::Remove(U"key.dat", false);
-                bool isSuccessRemoveMain = FileSystem::Remove(U"main.dat", false);
-                if (((isSuccessRemoveKey || !isSuccessCopyKey) && (isSuccessRemoveMain || !isSuccessCopyMain))) {
-                    FileSystem::Remove(U"initTMP" + key_db_name, false);
-                    FileSystem::Remove(U"initTMP" + main_db_name, false);
-                    isInitialize = false;
-                    retInitialize = false;
+                if (Database.initialize()) {
                     text = U"初期化成功";
-                    //changeScene(U"CreatePassword");
                 }
                 else {
-                    initWarmText = U"";
                     text = U"初期化失敗";
-                    FileSystem::Copy(U"initTMP" + key_db_name, U"key.dat", CopyOption::OverwriteExisting);
-                    FileSystem::Copy(U"initTMP" + main_db_name, U"main.dat", CopyOption::OverwriteExisting);
-                    FileSystem::Remove(U"initTMP" + key_db_name, false);
-                    FileSystem::Remove(U"initTMP" + main_db_name, false);
-                    isInitialize = false;
-                    retInitialize = false;
                 }
             }
         }

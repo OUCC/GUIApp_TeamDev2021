@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write_5fdata_14',['write_data',['../classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91',1,'db']]]
+  ['write_5fdata_18',['write_data',['../classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91',1,'db']]]
 ];

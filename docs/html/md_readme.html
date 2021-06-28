@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GUIApp_TeamDev2021: Class Index</title>
+<title>GUIApp_TeamDev2021: Password Manager</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classes.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('md_readme.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -80,30 +80,43 @@ $(document).ready(function(){initNavTree('classes.html',''); initResizable(); })
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Class Index</div>  </div>
+<div class="title">Password Manager </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="qindex"><a class="qindex" href="#letter_C">C</a>&#160;|&#160;<a class="qindex" href="#letter_D">D</a>&#160;|&#160;<a class="qindex" href="#letter_L">L</a>&#160;|&#160;<a class="qindex" href="#letter_M">M</a>&#160;|&#160;<a class="qindex" href="#letter_S">S</a></div>
-<div class="classindex">
-<dl class="classindex even">
-<dt class="alphachar"><a name="letter_C">C</a></dt>
-<dd><a class="el" href="class_create_password.html">CreatePassword</a></dd></dl>
-<dl class="classindex odd">
-<dt class="alphachar"><a name="letter_D">D</a></dt>
-<dd><a class="el" href="classdb.html">db</a></dd><dd><a class="el" href="classdb__exception.html">db_exception</a></dd></dl>
-<dl class="classindex even">
-<dt class="alphachar"><a name="letter_L">L</a></dt>
-<dd><a class="el" href="class_login.html">Login</a></dd></dl>
-<dl class="classindex odd">
-<dt class="alphachar"><a name="letter_M">M</a></dt>
-<dd><a class="el" href="class_main_scene.html">MainScene</a></dd></dl>
-<dl class="classindex even">
-<dt class="alphachar"><a name="letter_S">S</a></dt>
-<dd><a class="el" href="classsingle__data.html">single_data</a></dd></dl>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p><img src="https://user-images.githubusercontent.com/65015796/123536628-81d83b80-d766-11eb-9a54-45e78362149f.png" alt="image" class="inline"/></p>
+<p>このプログラムは、大阪大学コンピュータクラブ(OUCC)の2021年の新歓企画である短期グループ開発イベントで、GUI アプリケーション班が作成したパスワードマネージャです。まだ「完成」とは言えませんが、暗号化などの基本的な機能は既にそろっています。</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+実行方法</h1>
+<p>現在はまだバイナリ形式での配布を行っていません。<a href="https://github.com/OUCC/GUIApp_TeamDev2021/wiki">Wiki</a> を参考に環境を整え、ビルドしてください。<a href="https://siv3d.github.io/ja-jp/">Siv3D</a> を用いていますので、プロジェクトは Siv3D 用のものを作成する必要があります。</p>
+<p>動作確認ができているのは以下の環境です。</p><ul>
+<li>Windows 10</li>
+<li>mac OS Big Sir (M1 Mac の場合は Rosetta 2 が必要)</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+使い方</h1>
+<ol type="1">
+<li>起動後表示される画面で、このアプリ自体のパスワードを設定します。丸いボタンで確定します。<ul>
+<li>マネージャパスワードは忘れると復元不能です。絶対に忘れないでください。</li>
+</ul>
+</li>
+</ol>
+<ol type="1">
+<li>パスワードリスト画面が開きます。右上の「追加」からお好きなサービスのパスワードを登録できます。</li>
+</ol>
+<ol type="1">
+<li>追加できたら、パスワードリストに表示されます。パスワードはセキュリティ保護のためデフォルトでは伏せられていますが、画面上の「パスワード」の右の目のアイコンをクリックすることで表示/非表示を切り替えられます。クリップボードへのコピー・情報の編集・削除は右のボタンから行えます。</li>
+</ol>
+<ol type="1">
+<li>左下の「マネージャパスワード変更」から、このアプリ自体のパスワードを変更できます。</li>
+</ol>
+<p>2回目以降の起動時は、最初にログイン画面が表示されるので、前回設定したパスワードを入力して丸いボタンでログインします。忘れた場合は、左下のボタンから初期化できます。</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+ライセンス</h1>
+<p>[MIT License](LICENSE) を適用します。ただし、暗号処理に OpenSSL を使用していますので再配布する際のライセンスにはご注意ください。 </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

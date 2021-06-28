@@ -25,6 +25,11 @@
 var NAVTREE =
 [
   [ "GUIApp_TeamDev2021", "index.html", [
+    [ "Password Manager", "md_readme.html", [
+      [ "実行方法", "md_readme.html#autotoc_md1", null ],
+      [ "使い方", "md_readme.html#autotoc_md2", null ],
+      [ "ライセンス", "md_readme.html#autotoc_md3", null ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
