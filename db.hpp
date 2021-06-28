@@ -37,7 +37,11 @@ public:
  * @param main_db_name データの保存先として使用するDBファイル名
  */
     db(String key_db_name = U"key.dat", String main_db_name = U"main.dat") :
-        key_db_name(key_db_name), main_db_name(main_db_name) {}
+        key_db_name(key_db_name), main_db_name(main_db_name) {
+        if (!FileSystem::IsFile(key_db_name) && FileSystem::IsFile(main_db_name)) {
+            FileSystem::Remove(main_db_name);
+        }
+    }
 
 /**
  * @brief PWマネージャーのパスワードが既に登録されているかを返す
@@ -181,41 +185,18 @@ public:
 
 /**
 * @brief データの初期化
-* @details 片方のみ削除されてしまったとき用にバックアップを作ってから削除
 *
 * @return true 削除に成功した場合
-* @return false 削除に失敗し、復元した場合
-* @exception db_exception 削除に成功したが、コピーの削除に失敗した場合
-* @exception db_exception 削除に失敗し、復元もできなかった場合
+* @return false 削除に失敗し、ファイルが残った場合
 */
-    bool initialize() {
+    bool reset() {
         String targets[] = { key_db_name, main_db_name };
-        bool flag = true;
         for (int i = 0; i < 2; i++) {
-            String tmpFile = U"initTMP" + targets[i];
-            if (!FileSystem::IsFile(targets[i])) continue;
-            if (FileSystem::Copy(targets[i], tmpFile, CopyOption::OverwriteExisting)) {
-                if (FileSystem::Remove(targets[i], false)) {
-                    if (!FileSystem::Remove(U"initTMP" + targets[i], false)) {
-                        throw db_exception("failed to remove tmp file, please remove by yourself");
-                    }
-                }
-                else {
-                    flag = false;
+            if (FileSystem::IsFile(targets[i])) {
+                if (!FileSystem::Remove(targets[i])) {
+                    return false;
                 }
             }
-            else flag =  false;
-        }
-        if (!flag) {
-            for (int i = 0; i < 2; i++) {
-                String tmpFile = U"initTMP" + targets[i];
-                if (!FileSystem::IsFile(tmpFile)) continue;
-                if (!FileSystem::Copy(tmpFile, targets[i], CopyOption::OverwriteExisting)) {
-                    throw db_exception("failed to remove and failed to undo, please undo by yourself");
-                }
-                FileSystem::Remove(tmpFile);
-            }
-            return false;
         }
         return true;
     }

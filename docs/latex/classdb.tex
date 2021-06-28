@@ -28,7 +28,7 @@ Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ \mbox{\hyper
 \begin{DoxyCompactList}\small\item\em データを読み込む \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}{write\+\_\+data}} (Array$<$ \mbox{\hyperlink{classsingle__data}{single\+\_\+data}} $>$ data)
 \begin{DoxyCompactList}\small\item\em データを書き込む \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classdb_a32454325af0de8bca0f6fd7ef12373de}{initialize}} ()
+bool \mbox{\hyperlink{classdb_a772303811640b428d1014ced0457a32f}{reset}} ()
 \begin{DoxyCompactList}\small\item\em データの初期化 \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -83,30 +83,6 @@ true 変更前のパスワードが正しく、変更に成功した場合
 
 false 変更前のパスワードが間違っていて変更に失敗した場合 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classdb_a32454325af0de8bca0f6fd7ef12373de}\label{classdb_a32454325af0de8bca0f6fd7ef12373de}} 
-\index{db@{db}!initialize@{initialize}}
-\index{initialize@{initialize}!db@{db}}
-\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
-{\footnotesize\ttfamily bool db\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-データの初期化 
-
-片方のみ削除されてしまったとき用にバックアップを作ってから削除
-
-\begin{DoxyReturn}{Returns}
-true 削除に成功した場合 
-
-false 削除に失敗し、復元した場合 
-\end{DoxyReturn}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & 削除に成功したが、コピーの削除に失敗した場合 \\
-\hline
-{\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & 削除に失敗し、復元もできなかった場合 \\
-\hline
-\end{DoxyExceptions}
 \mbox{\Hypertarget{classdb_acff925896188a6a78e4f9fbe567f4d01}\label{classdb_acff925896188a6a78e4f9fbe567f4d01}} 
 \index{db@{db}!is\_logined@{is\_logined}}
 \index{is\_logined@{is\_logined}!db@{db}}
@@ -207,6 +183,21 @@ PWマネージャーのパスワードを登録する @detail ログイン処理
 {\em \mbox{\hyperlink{classdb__exception}{db\+\_\+exception}}} & パスワードが既に登録されている場合、複数のキーが登録されていた場合 \\
 \hline
 \end{DoxyExceptions}
+\mbox{\Hypertarget{classdb_a772303811640b428d1014ced0457a32f}\label{classdb_a772303811640b428d1014ced0457a32f}} 
+\index{db@{db}!reset@{reset}}
+\index{reset@{reset}!db@{db}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily bool db\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+データの初期化 
+
+\begin{DoxyReturn}{Returns}
+true 削除に成功した場合 
+
+false 削除に失敗し、ファイルが残った場合 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}\label{classdb_a2e4e05de810d1edbc75cc9c0c15f2d91}} 
 \index{db@{db}!write\_data@{write\_data}}
 \index{write\_data@{write\_data}!db@{db}}

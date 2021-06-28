@@ -120,9 +120,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2e4e05de810d1edbc75cc9c0c15f2d91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">write_data</a> (Array&lt; <a class="el" href="classsingle__data.html">single_data</a> &gt; data)</td></tr>
 <tr class="memdesc:a2e4e05de810d1edbc75cc9c0c15f2d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">データを書き込む  <a href="classdb.html#a2e4e05de810d1edbc75cc9c0c15f2d91">More...</a><br /></td></tr>
 <tr class="separator:a2e4e05de810d1edbc75cc9c0c15f2d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32454325af0de8bca0f6fd7ef12373de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a32454325af0de8bca0f6fd7ef12373de">initialize</a> ()</td></tr>
-<tr class="memdesc:a32454325af0de8bca0f6fd7ef12373de"><td class="mdescLeft">&#160;</td><td class="mdescRight">データの初期化  <a href="classdb.html#a32454325af0de8bca0f6fd7ef12373de">More...</a><br /></td></tr>
-<tr class="separator:a32454325af0de8bca0f6fd7ef12373de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a772303811640b428d1014ced0457a32f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdb.html#a772303811640b428d1014ced0457a32f">reset</a> ()</td></tr>
+<tr class="memdesc:a772303811640b428d1014ced0457a32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">データの初期化  <a href="classdb.html#a772303811640b428d1014ced0457a32f">More...</a><br /></td></tr>
+<tr class="separator:a772303811640b428d1014ced0457a32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>DBの表面上のI/Oを担当するクラス </p>
@@ -224,44 +224,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true 変更前のパスワードが正しく、変更に成功した場合 </dd>
 <dd>
 false 変更前のパスワードが間違っていて変更に失敗した場合 </dd></dl>
-
-</div>
-</div>
-<a id="a32454325af0de8bca0f6fd7ef12373de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32454325af0de8bca0f6fd7ef12373de">&#9670;&nbsp;</a></span>initialize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool db::initialize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>データの初期化 </p>
-<p>片方のみ削除されてしまったとき用にバックアップを作ってから削除</p>
-<dl class="section return"><dt>Returns</dt><dd>true 削除に成功した場合 </dd>
-<dd>
-false 削除に失敗し、復元した場合 </dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classdb__exception.html" title="想定されていない操作が行われたことを表す例外クラス">db_exception</a></td><td>削除に成功したが、コピーの削除に失敗した場合 </td></tr>
-    <tr><td class="paramname"><a class="el" href="classdb__exception.html" title="想定されていない操作が行われたことを表す例外クラス">db_exception</a></td><td>削除に失敗し、復元もできなかった場合 </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -446,6 +408,36 @@ false パスワードが間違っていてログインに失敗した場合 </dd
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a772303811640b428d1014ced0457a32f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a772303811640b428d1014ced0457a32f">&#9670;&nbsp;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool db::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>データの初期化 </p>
+<dl class="section return"><dt>Returns</dt><dd>true 削除に成功した場合 </dd>
+<dd>
+false 削除に失敗し、ファイルが残った場合 </dd></dl>
 
 </div>
 </div>

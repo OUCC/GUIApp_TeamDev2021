@@ -106,7 +106,7 @@ public:
             }
             if (isInitialize){
                 initWarmText = U"";
-                if (Database.initialize()) {
+                if (Database.reset()) {
                     text = U"初期化成功";
                 }
                 else {
