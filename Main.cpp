@@ -112,6 +112,8 @@ public:
                 else {
                     text = U"初期化失敗";
                 }
+                isInitialize = false;
+                retInitialize = false;
             }
         }
     }
