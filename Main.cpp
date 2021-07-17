@@ -15,14 +15,13 @@ private:
     Circle *button;
     Transition *press;
     String text = U"Welcome", initWarmText = U"", key_db_name = U"key.dat", main_db_name = U"main.dat";
-    bool retInitialize = false, isInitialize = false;
+    bool retReset = false, isReset = false;
 
     Vec2 ratioPos(double x, double y) {
         return Vec2(screenSize.x * x, screenSize.y * y);
     }
 
     Vec2 ratioPosFromCenter(double x, double y) {
-        // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
         y *= -1;
         x *= 0.5;
         y *= 0.5;
@@ -32,7 +31,7 @@ private:
     }
 
 public:
-    Login(const InitData& init): IScene(init) { // コンストラクタ（必ず実装
+    Login(const InitData& init): IScene(init) { // コンストラクタ（必ず実装）
         font = new Font(60, Typeface::Bold);
         center = new Vec2(400, 70);
         buttonColor = new ColorF(1.0, 90.0, 205.0, 0.5);
@@ -41,7 +40,7 @@ public:
         FontAsset::Register(U"Regular", 20);
         if (!Database.is_registered()) changeScene(U"CreatePassword", -20.0s); // パスワード作成シーンに遷移
 
-        Scene::SetBackground(Color(106.0, 90.0, 205.0, 1.0));
+        Scene::SetBackground(Color(106, 90, 205, 1));
     }
 
     ~Login(){ // Destructor
@@ -70,9 +69,9 @@ public:
         // center から (4, 4) ずらした位置を中心にテキストを描く
         (*font)(text).drawAt(center->movedBy(4, 4), ColorF(106, 90, 205, 0.5));
         (*font)(text).drawAt(*center);
-        SimpleGUI::TextBoxAt(tes, ratioPosFromCenter(min(-0.188, 137.824/screenSize.x), -0.46), max(135.0, screenSize.x*0.3125), 64, !retInitialize);
-        if(SimpleGUI::ButtonAt(U"Clear", ratioPosFromCenter(max(0.3, 240/screenSize.x), -0.46), 100, !retInitialize)) tes.clear();
-        if((button->leftClicked() || KeyEnter.down()) && !retInitialize){
+        SimpleGUI::TextBoxAt(tes, ratioPosFromCenter(min(-0.188, 137.824/screenSize.x), -0.46), max(135.0, screenSize.x*0.3125), 64, !retReset);
+        if(SimpleGUI::ButtonAt(U"Clear", ratioPosFromCenter(max(0.3, 240/screenSize.x), -0.46), 100, !retReset)) tes.clear();
+        if((button->leftClicked() || KeyEnter.down()) && !retReset){
             int cnt = 0;
             bool valid = true;
             for(char32_t var: tes.text) {
@@ -88,32 +87,27 @@ public:
         }
 
         /// <summary>パスワードリセット</summary>
-        if (SimpleGUI::ButtonAt(U"初期化", ratioPosFromCenter(-0.87, -0.93), 100, !retInitialize)) retInitialize = true;
-        RectF(Vec2(0, 0), screenSize).draw(ColorF(Palette::Black, retInitialize ? 0.5 : 0.0));
-        if (retInitialize) {
+        if (SimpleGUI::ButtonAt(U"初期化", ratioPosFromCenter(-0.87, -0.93), 100, !retReset)) retReset = true;
+        RectF(Vec2(0, 0), screenSize).draw(ColorF(Palette::Black, retReset ? 0.5 : 0.0));
+        if (retReset) {
             RectF(Arg::center(ratioPosFromCenter(0, 0)), ratioPos(max(0.7, 420/screenSize.x), max(0.5, 250/screenSize.y))).draw(ColorF(0.8, 0, 0, 1.0));
-            //FontAsset(U"Regular")(U"警告").draw(ratioPos(0.5, 0.4), ColorF(1, 1, 1, 1));
             initWarmText = U"警告";
             (*font)(initWarmText).drawAt(ratioPosFromCenter(0.0, max(0.3, 150/screenSize.y)), ColorF(1, 1, 1, 1));
             FontAsset(U"Regular")(U"初期化を行うと、マネージャのパスワード\n及び保存されたデータは完全に失われます。").drawAt(ratioPosFromCenter(0.0, 0.0), ColorF(1, 1, 1, 1));
             FontAsset(U"Regular")(U"初期化しますか？").drawAt(ratioPosFromCenter(0.0, min(-0.2, -100/screenSize.y)), ColorF(1, 1, 1, 1));
             if (SimpleGUI::ButtonAt(U"キャンセル", ratioPosFromCenter(max(0.36, 216/screenSize.x), min(-0.36, -180/screenSize.y)))) {
                 initWarmText = U"";
-                retInitialize = false;
+                retReset = false;
             }
             if (SimpleGUI::ButtonAt(U"初期化する", ratioPosFromCenter(min(-0.36, -216/screenSize.x), min(-0.36, -180/screenSize.y)))) {
-                isInitialize = true;
+                isReset = true;
             }
-            if (isInitialize){
+            if (isReset){
                 initWarmText = U"";
-                if (Database.reset()) {
-                    text = U"初期化成功";
-                }
-                else {
-                    text = U"初期化失敗";
-                }
-                isInitialize = false;
-                retInitialize = false;
+                if (Database.reset()) text = U"初期化成功";
+                else text = U"初期化失敗";
+                isReset = false;
+                retReset = false;
             }
         }
     }
@@ -135,7 +129,6 @@ private:
     String text = U"Please create your password.";
 
     Vec2 ratioPosFromCenter(double x, double y) {
-        // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
         y *= -1;
         x *= 0.5;
         y *= 0.5;
@@ -166,8 +159,7 @@ public:
         button1->center = ratioPosFromCenter(0.9, -0.8667);
         
         const size_t length = static_cast<size_t>(Scene::Time() / 0.1); // 文字カウントを 0.1 秒ごとに増やす
-        // text の文字数以上の length は切り捨てられる
-        (*font1)(text.substr(0, length)).drawAt(Scene::Center(), Color(41, 26, 33));
+        (*font1)(text.substr(0, length)).drawAt(Scene::Center(), Color(41, 26, 33)); // text の文字数以上の length は切り捨てられる
         SimpleGUI::TextBoxAt(tes1, ratioPosFromCenter(0.0, min(-0.2, -80 / screenSize.y)), 250, 64);
         if (Database.is_registered()) {
             FontAsset(U"Regular")(U"Old:").drawAt(ratioPosFromCenter(-365 / screenSize.x, min(-0.2, -80 / screenSize.y)), ColorF(1, 1, 1, 1));
@@ -273,7 +265,6 @@ private:
     }
 
     Vec2 ratioPosFromCenter(double x, double y) {
-        // x, y == ratioPos arg.x*2 - 1, -(arg.y*2 - 1)
         y *= -1;
         x *= 0.5;
         y *= 0.5;
@@ -301,10 +292,13 @@ public:
 
     // 更新関数
     void update() override {
+        int cnt = 0;
+        bool valid = true;
+
         ClearPrint();
         noticeTimer += Scene::DeltaTime();
         screenSize = Vec2(Window::ClientWidth(), Window::ClientHeight());
-        scroll.max = floor((screenSize.y-100)/50);
+        scroll.max = (int)floor((screenSize.y-100)/50);
         RectF serviceNameHeadCullBox(70, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
         RectF userNameHeadCullBox(0.35 * screenSize.x, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
         RectF passwordHeadCullBox(0.6 * screenSize.x, 10, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
@@ -315,18 +309,14 @@ public:
         RectF popupAddChangePasswordHeadCullBox(ratioPosFromCenter(0.0, max(0.4, 240/screenSize.y)), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         RectF popupAddChangePasswordTextCullBox(ratioPos(0.5, 0.4), ratioPosFromCenter(-0.3, min(-0.5, -350 / screenSize.y)));
         RectF repopCheckTextCullBox(ratioPos(0.57, 0.38), ratioPos(0.2, max(0.4, 240 / screenSize.y)));
-        //RectF popupServiceNameInputCullBox(ratioPosFromCenter(-0.6, max(0.3, 180 / screenSize.y)), screenSize.x / 4, 20);
-        //RectF popupUserNameInputCullBox(ratioPosFromCenter(-0.6, max(0.06, 36 / screenSize.y)), screenSize.x / 4, 20);
-        //RectF popupPasswordInputCullBox(ratioPosFromCenter(-0.6, min(-0.18, -108 / screenSize.y)), screenSize.x / 4, 20);
 
         RectF visibleTexCullBox(screenSize.x - 130, 10, 500, 30);
 
-        if (Rect(50, 50, screenSize.x-100, screenSize.y-110).drawFrame(10, Design::frame).draw(Design::inFrame).mouseOver() && popupState == notPopup) {
+        if (Rect(50, 50, (int)screenSize.x-100, (int)screenSize.y-110).drawFrame(10, Design::frame).draw(Design::inFrame).mouseOver() && popupState == notPopup) {
             scroll.wheel += Mouse::Wheel();
             if (scroll.wheel < 0) scroll.wheel = 0;
-            if (scroll.wheel > passArray.size()-1) scroll.wheel = passArray.size()-1;
-
-            scroll.current = floor(scroll.wheel);
+            if (scroll.wheel > passArray.size()-1) scroll.wheel = (double)(passArray.size()-1);
+            scroll.current = (int)floor(scroll.wheel);
         }
 
         FontAsset(U"Regular")(U"サービス名").draw(serviceNameHeadCullBox, Design::fontColor);
@@ -354,7 +344,6 @@ public:
             RectF serviceNameTextCullBox(70, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 70), 50);
             RectF userNameTextCullBox(0.35 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.35 * screenSize.x), 50);
             RectF passwordTextCullBox(0.6 * screenSize.x, height, min(0.3 * (screenSize.x - 200), screenSize.x - 160 - 0.6 * screenSize.x), 50);
-            //dataTexCullBox.draw();
 
             // Array passArrayのインデックスは scroll.current + i
             FontAsset(U"Regular")(passArray[scroll.current + i].service_name).draw(serviceNameTextCullBox, Design::fontColor);
@@ -364,9 +353,7 @@ public:
             if (TextureAsset(U"copy").resized(30).draw(screenSize.x-160, height).mouseOver() && popupState == notPopup) {
                 Cursor::RequestStyle(CursorStyle::Hand);
                 if (MouseL.down()) {
-                    // パスワードのコピー処理
-                    Clipboard::SetText(passArray[scroll.current + i].password);
-                    // コピーできたら以下をする
+                    Clipboard::SetText(passArray[scroll.current + i].password); // パスワードのコピー処理
                     noticeType = notice_copy;
                     noticeTimer = 0.0;
                 }
@@ -391,8 +378,7 @@ public:
         }
 
         RectF(Vec2(0,0),screenSize).draw(ColorF(Palette::Black, popupState == notPopup ? 0.0 : 0.5));
-        int cnt = 0;
-        bool valid = true;
+
         //ポップアップ時
         switch (popupState) {
             case forAdd:
@@ -430,7 +416,6 @@ public:
                     FontAsset(U"Regular")(U"この内容で確定しますか？").draw(repopCheckTextCullBox, Design::fontColor);
                     if (SimpleGUI::ButtonAt(U"はい", ratioPosFromCenter(0.18 + (screenSize.x >= 500 ? 0.0 : 0.16), -0.22),80)) {
                         single_data temp(serviceNameText.text, userNameText.text, passwordText.text);
-                        // パスワードの追加・変更処理
                         // Array passArray のインデックスは popupIndex
                         if(lastPopupState == forAdd){ // 追加
                             passArray << temp;
@@ -456,22 +441,15 @@ public:
                     if (popupState == forMngPsswrdChange) {
                         popupState = notPopup;
                         changeScene(U"CreatePassword");
-                    }
-                    else {
-                        // パスワードの削除処理
+                    } else {
                         // Array passArrayのインデックスは popupIndex
-                        for (int j = popupIndex; j < passArray.size() - 1; j++) {
-                            passArray[j] = passArray[j + 1];
-                        }
+                        for (int j = popupIndex; j < passArray.size() - 1; j++) passArray[j] = passArray[j + 1]; // パスワードの削除処理
                         passArray.pop_back();
                         Database.write_data(passArray);
                         popupState = notPopup;
-
-                        // 削除できたら以下をする
                         noticeType = notice_delete;
                         noticeTimer = 0.0;
                     }
-
                 }
                 if (SimpleGUI::Button(U"いいえ", ratioPos(0.5,0.55) + Vec2(20,00), 80)) popupState = notPopup;
                 break;
@@ -479,9 +457,9 @@ public:
             default: break;
         }
         
-        int copyNoticeX = (2.5-abs(noticeTimer-2.5))*300;
+        int copyNoticeX = (int)((2.5-abs(noticeTimer-2.5))*300);
         if (copyNoticeX > 200) copyNoticeX = 200;
-        Rect(screenSize.x-copyNoticeX, screenSize.y-50, 200, 50).draw(Design::fontColor);
+        Rect((int)screenSize.x-copyNoticeX, (int)screenSize.y-50, 200, 50).draw(Design::fontColor);
         String noticeMessage;
         switch (noticeType) {
             case notice_copy:
